@@ -2577,7 +2577,7 @@ function loadGuardDashboard() {
 
 // पॉप-अप ओपन करणारे फंक्शन
 window.showGuardPhoto = function(vaultKey) {
-    document.getElementById('guardPopupImage').src = window.guardPhotoVault[vaultKey]; // 📸 व्हॉल्टमधून फोटो घ्या
+    document.getElementById('guardPopupImage').src = window.guardPhotoVault[vaultKey]; // 📸 Vault मधून फोटो घेणार
     const photoModal = new bootstrap.Modal(document.getElementById('guardPhotoModal'));
     photoModal.show();
 };
