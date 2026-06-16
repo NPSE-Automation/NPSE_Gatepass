@@ -180,10 +180,7 @@
 <canvas id="hiddenCanvas" style="display:none;"></canvas>
 
 <script>
-  // ========================================================
-  // MAGIC BRIDGE (For GitHub Pages to connect to Google Apps Script)
-  // ========================================================
-  // 🔴 तुझी सर्वात नवीन डिप्लॉयमेंट लिंक इथे टाक:
+  // 🔴 तुझी सर्वात नवीन डिप्लॉयमेंट लिंक
   const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbx11poC2Xv57yafkd1VNALE9mrxqX45RA8ZwCXVht4Ab-JhUCl3C5KXuMdxHdYqbvMH/exec"; 
 
   window.google = { script: { run: getRunner(null, null) } };
@@ -205,7 +202,6 @@
           }
       });
   }
-  // ========================================================
 
   let stream = null;
   let isScanning = false;
@@ -226,7 +222,7 @@
     }
   }
 
-async function startScanner() {
+  async function startScanner() {
     try {
       setBadge('s-ready', '⏳ कॅमेरा सुरू होत आहे...');
       
@@ -240,21 +236,22 @@ async function startScanner() {
 
       // 🔦 ANTI-FRAUD HACK: FORCE FLASHLIGHT ON
       const track = stream.getVideoTracks()[0];
-      try {
-        setTimeout(async () => {
-            const capabilities = track.getCapabilities();
-            if (capabilities.torch) {
+      setTimeout(async () => {
+        try {
+            const caps = track.getCapabilities();
+            if (caps.torch) {
                 await track.applyConstraints({ advanced: [{ torch: true }] });
+            } else {
+                await track.applyConstraints({ torch: true });
             }
-        }, 500);
-      } catch(err) {
-        console.log("Torch not supported on this device/browser.");
-      }
+        } catch(err) {
+            console.log("Torch constraint failed", err);
+        }
+      }, 1000); 
       
       isScanning = true;
       container.classList.add('scanning');
       
-      // ✅ FIX: तुझा ओरिजिनल 'लाल बटणाचा' क्लास वापरला आहे
       toggleBtn.innerText = '🛑 कॅमेरा बंद करा';
       toggleBtn.className = 'action-btn stop';
       
@@ -267,7 +264,7 @@ async function startScanner() {
     }
   }
 
-function stopScanner() {
+  function stopScanner() {
     isScanning = false;
     container.classList.remove('scanning');
     if (scanningLoop) cancelAnimationFrame(scanningLoop);
@@ -277,7 +274,6 @@ function stopScanner() {
     }
     video.srcObject = null;
     
-    // ✅ FIX: तुझा ओरिजिनल 'निळ्या बटणाचा' क्लास वापरला आहे
     toggleBtn.innerText = '🎥 कॅमेरा सुरू करा';
     toggleBtn.className = 'action-btn';
     
@@ -299,7 +295,7 @@ function stopScanner() {
       });
 
       if (code && code.data) {
-        onQRDetected(code.data); // 📸 आधी फोटो काढा
+        onQRDetected(code.data); // 📸 आधी गुपचूप फोटो काढा
         stopScanner();           // 🛑 मग कॅमेरा बंद करा
         return; 
       }
@@ -307,9 +303,11 @@ function stopScanner() {
     scanningLoop = requestAnimationFrame(tick);
   }
 
-function onQRDetected(text) {
+  function onQRDetected(text) {
     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-    setBadge('s-saving', '📸 फोटो आणि नोंद सेव्ह होत आहे...');
+    
+    // 🤫 SILENT CAPTURE: गार्डला फक्त 'प्रोसेसिंग' सांगा, फोटोचा उल्लेख करू नका!
+    setBadge('s-saving', '⏳ स्कॅन पूर्ण झाले, कृपया प्रतीक्षा करा...');
 
     const livePhotoBase64 = canvas.toDataURL('image/jpeg', 0.5); 
 
@@ -324,7 +322,9 @@ function onQRDetected(text) {
           document.getElementById('locName').innerText = '📍 ' + locName;
           document.getElementById('scanTime').innerText = d + ' | ' + t;
           document.getElementById('successModal').classList.add('show');
-          setBadge('s-active', '✅ नोंद आणि पुरावा (फोटो) सेव्ह झाला!');
+          
+          // 🤫 SILENT CAPTURE: इथेही फक्त 'नोंद झाली' सांगा!
+          setBadge('s-active', '✅ स्कॅन यशस्वीरित्या नोंदवले गेले!');
         } else {
           setBadge('s-error', '❌ त्रुटी: ' + (res ? res.message : 'अज्ञात त्रुटी'));
           setTimeout(startScanner, 3000); 
@@ -334,7 +334,7 @@ function onQRDetected(text) {
         setBadge('s-error', '❌ इंटरनेट नाही! पुन्हा प्रयत्न करा.');
         setTimeout(startScanner, 3000);
       })
-      .recordGuardScan(text, livePhotoBase64); 
+      .recordGuardScan(text, livePhotoBase64); // फोटो गुपचूप ॲडमिनला पाठवला जातोय
   }
 
   function closeModal() {
@@ -343,7 +343,6 @@ function onQRDetected(text) {
   }
 
   function setBadge(type, msg) {
-    // ✅ FIX: तुझे ओरिजिनल डार्क थीमचे कलर्स वापरले आहेत
     badge.className = `status-badge ${type}`;
     badge.innerText = msg;
   }
