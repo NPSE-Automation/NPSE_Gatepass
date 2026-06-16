@@ -2533,10 +2533,10 @@ function loadGuardDashboard() {
                  let clickAction = '';
                  let icon = `<i class="bi bi-check-circle-fill me-1"></i>`;
                  
-                 // 📸 EXACT FIX: ५०,००० अक्षरे HTML मध्ये टाकण्याऐवजी Vault मध्ये सेव्ह करा!
+                 // 📸 EXACT FIX: मोठा फोटो HTML मध्ये टाकण्याऐवजी Vault मध्ये सेव्ह करा!
                  if (scan.photo && scan.photo.length > 50) {
                      let vaultKey = "img_" + h + "_" + cp.id;
-                     window.guardPhotoVault[vaultKey] = scan.photo; // फोटो व्हॉल्टमध्ये सेव्ह
+                     window.guardPhotoVault[vaultKey] = scan.photo;
                      
                      clickAction = `onclick="window.showGuardPhoto('${vaultKey}')" style="cursor:pointer;" title="Click to view Photo"`;
                      icon = `<i class="bi bi-camera-fill me-1 fs-6"></i>`;
@@ -2577,7 +2577,7 @@ function loadGuardDashboard() {
 
 // पॉप-अप ओपन करणारे फंक्शन
 window.showGuardPhoto = function(vaultKey) {
-    document.getElementById('guardPopupImage').src = window.guardPhotoVault[vaultKey]; // व्हॉल्टमधून फोटो घ्या
+    document.getElementById('guardPopupImage').src = window.guardPhotoVault[vaultKey]; // 📸 व्हॉल्टमधून फोटो घ्या
     const photoModal = new bootstrap.Modal(document.getElementById('guardPhotoModal'));
     photoModal.show();
 };
