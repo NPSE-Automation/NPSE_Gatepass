@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { 
+      background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); 
+      min-height: 100vh;
+      padding-top: 30px; 
+      padding-bottom: 30px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    .main-container { max-width: 550px; margin: 0 auto; }
+    .kiosk-card { 
+      background: #ffffff; border: none; border-radius: 20px; 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08); padding: 35px 30px;
+    }
+    .brand-header { text-align: center; margin-bottom: 30px; }
+    .brand-logo { max-height: 70px; margin-bottom: 15px; }
+    .brand-title { 
+      color: #475569; /* Elegant slate gray */
+      font-weight: 500; /* Thinner, softer font */
+      font-size: 26px;
+      letter-spacing: -0.3px; 
+      margin-bottom: 5px; 
+      line-height: 1.4;
+    }
+    
+    .brand-highlight { 
+      color: #1e3a8a; /* Deep, professional Corporate Navy */
+      font-weight: 700; 
+    }
+    .brand-subtitle { color: #64748b; font-size: 15px; }
+    
+    .form-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+    .form-section-title { font-size: 13px; text-transform: uppercase; font-weight: 700; color: #3b82f6; letter-spacing: 1px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+    .form-label { font-weight: 600; color: #334155; font-size: 14px; }
+    .form-control, .form-select { border-radius: 8px; border: 1px solid #cbd5e1; padding: 12px 15px; font-size: 15px; background-color: #ffffff; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02); }
+    .form-control:focus, .form-select:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+    
+    /* Disabled Dropdown Style */
+    select:disabled { background-color: #e2e8f0; cursor: not-allowed; color: #94a3b8; }
+
+    .photo-btn { width: 100%; border: 2px dashed #94a3b8; background: #ffffff; color: #475569; padding: 18px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s ease; }
+    .photo-btn:hover { background: #f1f5f9; border-color: #3b82f6; color: #3b82f6; }
+    .hidden-input { display: none; }
+    .preview-img { width: 100px; height: 100px; object-fit: cover; display: none; border: 3px solid #10b981; border-radius: 10px; margin-top: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    
+    .btn-submit { background: linear-gradient(to right, #2563eb, #3b82f6); border: none; border-radius: 10px; padding: 16px; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: transform 0.1s ease, box-shadow 0.1s ease; }
+    .btn-submit:active { transform: translateY(2px); box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2); }
+
+    #waitingScreen, #approvedScreen, #rejectedScreen { display: none; text-align: center; padding: 40px 10px; }
+    .status-icon { font-size: 70px; margin-bottom: 15px; }
+    .spinner-border { width: 3.5rem; height: 3.5rem; color: #3b82f6; margin-bottom: 25px; }
+  </style>
+</head>
+<body>
+
+<div class="main-container">
+  <div class="kiosk-card">
+    
+    <div class="brand-header">
+      <img src="https://drive.google.com/thumbnail?id=1iHhwmvkdlDIbWs-zH0DrSNn60nEtBxrE&sz=w800" alt="NPSE Logo" class="brand-logo" onerror="this.style.display='none'">
+      <h2 class="brand-title">Welcome to <br><span class="brand-highlight">NPSE Automation Pvt. Ltd</span></h2>
+      <p class="brand-subtitle">Let's get you checked in securely.</p>
+    </div>
+
+    <div id="formScreen">
+      
+      <div class="form-section">
+        <div class="form-section-title">📋 Your Information</div>
+        <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="v_name" class="form-control" placeholder="e.g. Rahul Sharma"></div>
+        <div class="mb-2"><label class="form-label">Company / Affiliation</label><input type="text" id="v_company" class="form-control" placeholder="Where are you visiting from?"></div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">🤝 Meeting Details</div>
+        
+        <div class="mb-3">
+          <label class="form-label">Which Department?</label>
+          <select id="v_department" class="form-select" onchange="loadHosts()">
+            <option value="">-- Select Department --</option>
+            <option value="Management">Management / Directors</option>
+            <option value="Production">Production</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Accounts">Accounts</option>
+            <option value="Assembly">Assembly</option>
+            <option value="Electrical">Electrical</option>
+            <option value="MACHINE SHOP">MACHINE SHOP</option>
+            <option value="HR">HR</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-primary">Who are you meeting?</label>
+          <select id="v_host" class="form-select" disabled style="border-color: #cbd5e1; background-color: #f8fafc;">
+            <option value="">-- Choose Department First --</option>
+          </select>
+        </div>
+        
+        <div class="mb-2"><label class="form-label">Reason for Visit</label><input type="text" id="v_reason" class="form-control" placeholder="e.g. Project Discussion, Delivery"></div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">🛡️ Identity Verification</div>
+        <div class="mb-4"><label class="form-label">1. Live Face Photo</label><div class="photo-btn" onclick="document.getElementById('faceInput').click()"><span style="font-size: 20px; display: block; margin-bottom: 5px;">📸</span> Tap to Open Camera</div><input type="file" accept="image/*" capture="user" id="faceInput" class="hidden-input" onchange="compressImage(this, 'facePreview')"><center><img id="facePreview" class="preview-img"></center></div>
+        <div class="mb-2"><label class="form-label">2. Government ID / Company Badge</label><div class="photo-btn" onclick="document.getElementById('idInput').click()"><span style="font-size: 20px; display: block; margin-bottom: 5px;">💳</span> Tap to Scan ID Document</div><input type="file" accept="image/*" id="idInput" class="hidden-input" onchange="compressImage(this, 'idPreview')"><center><img id="idPreview" class="preview-img"></center></div>
+      </div>
+
+      <button id="submitBtn" class="btn btn-primary btn-submit w-100" onclick="submitForm()">NOTIFY HOST SECURELY</button>
+    </div>
+
+    <div id="waitingScreen">
+      <div class="spinner-border" role="status"></div>
+      <h3 class="brand-title">Please Wait...</h3>
+      <p class="brand-subtitle mt-2">We have notified your host. Waiting for their digital approval to issue your gatepass.</p>
+    </div>
+    
+    <div id="approvedScreen">
+      <div class="status-icon">✅</div>
+      <h2 class="text-success fw-bold mb-3">ENTRY APPROVED</h2>
+      
+      <div style="background: #0f172a; color: #22c55e; font-family: 'Courier New', monospace; font-size: 28px; padding: 12px; border-radius: 10px; margin: 15px 0; font-weight: bold; letter-spacing: 2px; box-shadow: inset 0 4px 6px rgba(0,0,0,0.5);" id="securityClock">
+        Loading Time...
+      </div>
+
+      <p class="text-muted mb-2">Please show this live screen to the security desk.</p>
+      <span id="authByName" style="display: inline-block; background: #dcfce7; color: #166534; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-bottom: 10px;"></span>
+      
+      <div style="background: #f0fdf4; border: 2px dashed #22c55e; padding: 20px; border-radius: 15px; margin-top: 15px;">
+        <p class="text-success fw-bold mb-1" style="letter-spacing: 1px; font-size: 12px;">OFFICIAL PASS ID</p>
+        <h2 class="mb-0 text-success fw-bold" id="finalPassId" style="letter-spacing: 2px;"></h2>
+        
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; border-top: 1px solid #bbf7d0; padding-top: 20px;">
+          <div style="text-align: center;">
+            <p style="font-size: 11px; color: #166534; margin-bottom: 5px; font-weight: 800;">FACE MATCH</p>
+            <img id="guardFacePhoto" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #22c55e;">
+          </div>
+          <div style="text-align: center;">
+            <p style="font-size: 11px; color: #166534; margin-bottom: 5px; font-weight: 800;">ID VERIFY</p>
+            <img id="guardIdPhoto" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #22c55e;">
+          </div>
+        </div>
+      </div>
+      
+      <button class="btn btn-outline-success mt-4 w-100" onclick="clearActivePass()" style="border-radius: 10px; font-weight: bold;">Start New Visit</button>
+    </div>
+    
+    <div id="rejectedScreen">
+      <div class="status-icon">❌</div>
+      <h2 class="text-danger fw-bold mb-3">ENTRY DECLINED</h2>
+      <p class="text-muted" style="line-height: 1.6;">Your host is currently unavailable or unable to approve this entry at this time. Please contact them directly to reschedule.</p>
+      
+      <button class="btn btn-outline-danger mt-4 w-100" onclick="clearActivePass()" style="border-radius: 10px; font-weight: bold;">Start New Visit</button>
+    </div>
+
+    <div id="timeoutScreen" style="display: none; text-align: center; padding: 40px 10px;">
+      <div class="status-icon">⏳</div>
+      <h2 class="text-warning fw-bold mb-3">HOST BUSY</h2>
+      <p class="text-muted" style="line-height: 1.6;">Your host is currently unavailable or in a meeting. Please hand this tablet back to the Security Guard to contact them via phone.</p>
+      <button class="btn btn-outline-secondary mt-4 w-100" onclick="clearActivePass()" style="border-radius: 10px; font-weight: bold;">Return to Home / Start New Visit</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // MAGIC BRIDGE FOR VISITOR UI
+  const GOOGLE_API_URL = "https://script.google.com/a/macros/npse.co.in/s/AKfycbx11poC2Xv57yafkd1VNALE9mrxqX45RA8ZwCXVht4Ab-JhUCl3C5KXuMdxHdYqbvMH/exec";
+
+  window.google = { script: { run: getRunner(null, null) } };
+  function getRunner(onSuccess, onFailure) {
+      return new Proxy({}, {
+          get: function(target, prop) {
+              if (prop === 'withSuccessHandler') return function(cb) { return getRunner(cb, onFailure); };
+              if (prop === 'withFailureHandler') return function(cb) { return getRunner(onSuccess, cb); };
+              return function(...args) {
+                  fetch(GOOGLE_API_URL, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                      body: JSON.stringify({ action: prop, args: args })
+                  })
+                  .then(r => r.json())
+                  .then(data => { if (onSuccess) onSuccess(data); })
+                  .catch(err => { if (onFailure) onFailure(err); });
+              };
+          }
+      });
+  }
+
+  // ======================================================
+  // 🧠 SMART HOST DICTIONARY (तुझा जुना कोड इथून पुढे तसाच राहू दे)
+  // ======================================================
+  // 🧠 SMART HOST DICTIONARY
+  // ======================================================
+  const departmentData = {
+    "Management": [
+      { displayName: "Mr. Uday Patil", exactDbName: "Mr. Uday Patil" },
+      { displayName: "Mr. Nitin Surve", exactDbName: "Mr. Nitin Surve" }
+    ],
+    "Production": [
+      { displayName: "Mr. Pravin paturde", exactDbName: "Mr. Pravin paturde" }
+    ],
+    "Purchase": [
+      { displayName: "Prerana Salunkhe", exactDbName: "Prerana manohar salunkhe" }
+    ],
+    "Accounts": [
+      { displayName: "Mr. Namdev More", exactDbName: "Mr. Namdev More" }
+    ],
+    "Assembly": [
+      { displayName: "Mr. Nilesh Narwade", exactDbName: "Mr. NILESH NARWADE" },
+      { displayName: "Mr. Piyush Bhat", exactDbName: "Mr. Piyush Bhat" }
+    ],
+    "Electrical": [
+      { displayName: "Mr. Parvej Khan", exactDbName: "Mr. Parvej Khan" }
+    ],
+    "MACHINE SHOP": [
+      { displayName: "Mr. Dipak Dhangar", exactDbName: "Mr. Deepak Dhangar" }
+      ],
+      "HR": [
+      { displayName: "Kimi Vishwakarma", exactDbName: "Kimi vishwakarma" }
+      ]
+  };
+
+  function loadHosts() {
+    const deptSelect = document.getElementById("v_department");
+    const hostSelect = document.getElementById("v_host");
+    const selectedDept = deptSelect.value;
+
+    hostSelect.innerHTML = '<option value="">-- Select Host --</option>';
+
+    if (selectedDept && departmentData[selectedDept]) {
+      hostSelect.disabled = false;
+      hostSelect.style.borderColor = "#93c5fd";
+      hostSelect.style.backgroundColor = "#eff6ff";
+
+      departmentData[selectedDept].forEach(function(person) {
+        let newOption = document.createElement("option");
+        newOption.value = person.exactDbName;    
+        newOption.innerHTML = person.displayName; 
+        hostSelect.appendChild(newOption);
+      });
+    } else {
+      hostSelect.disabled = true;
+      hostSelect.style.borderColor = "#cbd5e1";
+      hostSelect.style.backgroundColor = "#f8fafc";
+      hostSelect.innerHTML = '<option value="">-- Choose Department First --</option>';
+    }
+  }
+
+  // ==========================================
+  // APP INITIALIZATION (PERSISTENCE LOGIC)
+  // ==========================================
+  let faceBase64 = "", idBase64 = "", currentPassId = "", checkTimer;
+
+  window.onload = function() {
+    let activePass = localStorage.getItem('npse_v_pass_id');
+    let timestamp = localStorage.getItem('npse_v_time');
+    let now = new Date().getTime();
+
+    // If there is an active pass and it's less than 12 hours old, resume it!
+    if (activePass && timestamp && (now - timestamp < 12 * 60 * 60 * 1000)) {
+        currentPassId = activePass;
+        
+        // Recover the photos from memory so the security card still works if refreshed
+        faceBase64 = localStorage.getItem('npse_v_face') || "";
+        idBase64 = localStorage.getItem('npse_v_id') || "";
+
+        document.getElementById('formScreen').style.display = "none";
+        document.getElementById('waitingScreen').style.display = "block";
+        
+        checkTimer = setInterval(pollServer, 7000);
+        pollServer(); 
+        return; 
+    } else {
+        // SECURITY FIX: If the pass is old, DELETE the heavy/private photos immediately!
+        localStorage.removeItem('npse_v_pass_id');
+        localStorage.removeItem('npse_v_time');
+        localStorage.removeItem('npse_v_face');
+        localStorage.removeItem('npse_v_id');
+    }
+
+    // 2. Returning Visitor Auto-Fill (Only Name, Company, and ID Photo!)
+    let savedName = localStorage.getItem('npse_v_name');
+    let savedCompany = localStorage.getItem('npse_v_company');
+    let savedId = localStorage.getItem('npse_v_id');
+
+    if (savedName) document.getElementById('v_name').value = savedName;
+    if (savedCompany) document.getElementById('v_company').value = savedCompany;
+    
+    // Auto-load the ID photo, but DO NOT load the Face photo
+    if (savedId) {
+        idBase64 = savedId;
+        document.getElementById('idPreview').src = savedId;
+        document.getElementById('idPreview').style.display = "block";
+    }
+}
+  // 🚀 BLANK SCREEN FIX: Manually reset UI instead of reloading the page
+  function clearActivePass() {
+      // 1. Wipe Active Pass Memory
+      localStorage.removeItem('npse_v_pass_id');
+      localStorage.removeItem('npse_v_time');
+      
+      // 2. PRIVACY FIX: Permanently delete the private photos from the phone
+      localStorage.removeItem('npse_v_face');
+      localStorage.removeItem('npse_v_id');
+      faceBase64 = "";
+      idBase64 = "";
+
+      // 3. Hide all ending screens and show the Form again
+      document.getElementById('approvedScreen').style.display = 'none';
+      document.getElementById('rejectedScreen').style.display = 'none';
+      document.getElementById('timeoutScreen').style.display = 'none';
+      document.getElementById('waitingScreen').style.display = 'none';
+      document.getElementById('formScreen').style.display = 'block';
+
+      // 4. Clear the specific fields (Leave Name & Company filled!)
+      document.getElementById('v_reason').value = "";
+      document.getElementById('v_department').value = "";
+      document.getElementById('v_host').innerHTML = '<option value="">-- Choose Department First --</option>';
+      document.getElementById('v_host').disabled = true;
+      document.getElementById('v_host').style.backgroundColor = "#f8fafc";
+      document.getElementById('v_host').style.borderColor = "#cbd5e1";
+
+      // 5. Hide ONLY the Face photo preview (Keep ID preview visible for the next user!)
+      document.getElementById('facePreview').style.display = 'none';
+      document.getElementById('facePreview').src = "";
+      // 6. Reset the submit button
+      document.getElementById('submitBtn').innerHTML = "NOTIFY HOST SECURELY";
+      document.getElementById('submitBtn').disabled = false;
+  }
+
+  // ==========================================
+  // NORMAL IMAGE & SUBMIT LOGIC
+  // ==========================================
+
+  function compressImage(input, previewId) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas'), ctx = canvas.getContext('2d');
+          var width = img.width, height = img.height;
+          if (width > 600) { height *= 600 / width; width = 600; }
+          canvas.width = width; canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          var tinyImage = canvas.toDataURL('image/jpeg', 0.5); 
+          document.getElementById(previewId).src = tinyImage;
+          document.getElementById(previewId).style.display = "block";
+          if (previewId === 'facePreview') faceBase64 = tinyImage;
+          if (previewId === 'idPreview') idBase64 = tinyImage;
+        }
+        img.src = e.target.result;
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function submitForm() {
+    const data = {
+      name: document.getElementById('v_name').value.trim(),
+      company: document.getElementById('v_company').value.trim(),
+      reason: document.getElementById('v_reason').value.trim(),
+      hostName: document.getElementById('v_host').value,
+      facePhoto: faceBase64, 
+      idPhoto: idBase64
+    };
+
+    if(!data.name || !data.company || !data.reason || !data.hostName || !data.facePhoto || !data.idPhoto) {
+      return alert("Please fill out all fields completely and capture both photos before submitting.");
+    }
+
+    document.getElementById('submitBtn').innerHTML = "Securely Sending...";
+    document.getElementById('submitBtn').disabled = true;
+
+    google.script.run.withSuccessHandler(function(res) {
+        if(res.status === "Success") {
+          currentPassId = res.passId;
+          
+          // 🚀 PERMANENTLY SAVE NAME, COMPANY, AND ID PHOTO
+          localStorage.setItem('npse_v_name', data.name);
+          localStorage.setItem('npse_v_company', data.company);
+          localStorage.setItem('npse_v_id', data.idPhoto);
+          
+          // We DO NOT save the face photo permanently
+          localStorage.setItem('npse_v_face', data.facePhoto);
+          
+          // Save the Active Pass state
+          localStorage.setItem('npse_v_pass_id', currentPassId);
+          localStorage.setItem('npse_v_time', new Date().getTime());
+
+          document.getElementById('formScreen').style.display = "none";
+          document.getElementById('waitingScreen').style.display = "block";
+          checkTimer = setInterval(pollServer, 7000); 
+        } else {
+          alert("Error: " + res.message);
+          document.getElementById('submitBtn').innerHTML = "NOTIFY HOST SECURELY";
+          document.getElementById('submitBtn').disabled = false;
+        }
+      }).submitVisitorRequest(data);
+  }
+
+  // 🟢 UPGRADED POLL SERVER (With 5-Minute Timeout)
+  let pollAttempts = 0; 
+  const MAX_ATTEMPTS = 100; // 100 checks at 3 seconds each = 5 Minutes
+
+  function pollServer() {
+    pollAttempts++;
+
+    if (pollAttempts >= MAX_ATTEMPTS) {
+      clearInterval(checkTimer);
+      document.getElementById('waitingScreen').style.display = "none";
+      document.getElementById('timeoutScreen').style.display = "block";
+      return; 
+    }
+
+    google.script.run.withSuccessHandler(function(res) {
+      if(res.status === "APPROVED") {
+        clearInterval(checkTimer);
+        document.getElementById('waitingScreen').style.display = "none";
+        document.getElementById('approvedScreen').style.display = "block";
+        document.getElementById('finalPassId').innerText = currentPassId;
+        document.getElementById('authByName').innerText = "Authorized by: " + res.hostName;
+        
+        document.getElementById('guardFacePhoto').src = faceBase64;
+        document.getElementById('guardIdPhoto').src = idBase64;
+
+        setInterval(function() {
+          const now = new Date();
+          document.getElementById('securityClock').innerText = now.toLocaleTimeString('en-US', { hour12: true });
+        }, 1000);
+
+      } else if (res.status === "REJECTED") {
+        clearInterval(checkTimer);
+        document.getElementById('waitingScreen').style.display = "none";
+        document.getElementById('rejectedScreen').style.display = "block";
+      }
+    }).checkVisitorStatus(currentPassId);
+  }
+</script>
+</body>
+</html>

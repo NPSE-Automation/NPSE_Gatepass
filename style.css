@@ -1,0 +1,238 @@
+  /* FORCE HIDE: Add this to prevent overlapping sections */
+.d-none { 
+  display: none !important; 
+}
+
+/* Default state: All sections hidden until the Sheet data arrives */
+#raiseTicketSection, #pendingSection, #punchOutSection, #activePassCard, #tab-history {
+  display: none;
+}
+  /* --- 1. GLOBAL & BASE STYLES --- */
+  body { 
+    background-color: #f4f7f6; /* Clean background for Dashboard clarity */
+    min-height: 100vh; 
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  /* The Login/Register background (Dark Gradient) */
+  .center-container {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .hidden-view { display: none !important; }
+
+  /* --- 2. AUTH CARD (Login / Register / Employee Mobile) --- */
+  .auth-card { 
+    background: rgba(255, 255, 255, 0.98); 
+    border-radius: 20px; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+    border: none; 
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .brand-header { 
+    background: #0056b3; 
+    color: white; 
+    padding: 25px; 
+    text-align: center; 
+  }
+
+  .form-control, .form-select { 
+    border-radius: 10px; 
+    padding: 12px; 
+    margin-bottom: 15px; 
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+  }
+
+  .btn-primary { 
+    width: 100%; 
+    padding: 12px; 
+    border-radius: 10px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    transition: all 0.3s ease;
+  }
+
+  /* --- 3. ADMIN DASHBOARD LAYOUT --- */
+  #adminDashView {
+    background: #f4f7f6;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .sticky-top {
+    background: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+
+  /* KPI Cards (The 4 Stat Boxes) */
+  .kpi-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none !important;
+  }
+
+  .kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+  }
+
+  /* Stronger Color Borders for KPIs */
+  .border-warning { border-left: 6px solid #ffc107 !important; }
+  .border-success { border-left: 6px solid #198754 !important; }
+  .border-primary { border-left: 6px solid #0d6efd !important; }
+  .border-danger  { border-left: 6px solid #dc3545 !important; }
+
+  /* --- 4. MASTER ADMIN "ELITE" STYLING --- */
+  #masterPanel .card {
+    border-left: 6px solid #198754 !important;
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(25, 135, 84, 0.1);
+    border-radius: 15px;
+  }
+
+  #masterPanel h5 {
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: #155724;
+  }
+
+  /* Excel-style clean table header */
+.table thead th {
+  background-color: #f8f9fa; /* Light Gray instead of Black */
+  color: #333;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-bottom: 2px solid #dee2e6;
+  padding: 12px;
+}
+
+  .table-hover tbody tr:hover {
+    background-color: #f1f4f9;
+  }
+
+  /* Status Pills */
+  .status-pill {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.7rem;
+    display: inline-block;
+    text-align: center;
+    min-width: 85px;
+  }
+
+  .badge-pending  { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+  .badge-approved { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+  .badge-rejected { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+  .badge-out      { background: #cfe2ff; color: #084298; border: 1px solid #b6d4fe; }
+
+  /* --- 6. PROFILE & PREVIEWS --- */
+  .img-thumbnail { 
+    max-width: 150px; 
+    border-radius: 50%; 
+    margin-top: 10px; 
+    border: 3px solid #0056b3;
+  }
+
+  .emp-profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #0056b3;
+  }
+
+  /* --- 7. TOAST NOTIFICATIONS --- */
+  #toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+
+  .toast-msg {
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  /* --- 8. RESPONSIVE ADJUSTMENTS --- */
+  @media (max-width: 768px) {
+    .sticky-top .row > div {
+      margin-bottom: 8px;
+    }
+    .kpi-card h3 {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Bottom Nav Styling */
+.fixed-bottom {
+  height: 70px;
+  z-index: 1050;
+}
+
+.fixed-bottom .btn-link {
+  font-size: 0.7rem;
+  padding: 5px;
+}
+
+/* Card Styling for Logs */
+#empHistoryList .card {
+  border: 1px solid #eee !important;
+  transition: 0.2s;
+}
+
+#empHistoryList .card:active {
+  background-color: #f8f9fa;
+}
+
+/* Tab Container Adjustment */
+#mainViewContainer {
+  min-height: calc(100vh - 150px);
+}
+
+/* Prevent selection and "save image" long-press on mobile */
+#activePassCard {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* A pulsing green dot to show the ID is "Live" and not a screenshot */
+.live-indicator {
+  width: 12px;
+  height: 12px;
+  background: #28a745; /* Green */
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  box-shadow: 0 0 0 rgba(40, 167, 69, 0.4);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}

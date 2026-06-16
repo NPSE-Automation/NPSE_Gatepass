@@ -1,0 +1,463 @@
+<div class="offcanvas offcanvas-start shadow-lg border-0" tabindex="-1" id="masterSidebar" aria-labelledby="masterSidebarLabel" style="width: 400px; border-radius: 0 15px 15px 0;">
+  <div class="offcanvas-header bg-dark text-white p-4">
+    <h5 class="offcanvas-title fw-bold" id="masterSidebarLabel">
+      <i class="bi bi-person-badge-fill me-2"></i>Master Admin Profile
+    </h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  
+  <div class="offcanvas-body bg-light p-4">
+    <div id="masterPanel" >
+      <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+        <div class="card-header bg-white border-0 pt-3 pb-0">
+          <h6 class="fw-bold text-primary mb-0"><i class="bi bi-shield-plus me-2"></i>Authorize Sub-Admin</h6>
+        </div>
+        <div class="card-body">
+          <p class="small text-muted mb-4 border-start border-3 border-primary ps-2">
+            Add up to 2 Sub-Admins. They will receive credentials via email.
+          </p>
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-dark mb-1">Assign Admin ID</label>
+            <input type="text" id="m_adminId" class="form-control form-control-sm bg-light border-0 shadow-none" placeholder="e.g. AD-01">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold text-dark mb-1">Full Name</label>
+            <input type="text" id="m_adminName" class="form-control form-control-sm bg-light border-0 shadow-none" placeholder="e.g. Rahul Sharma">
+          </div>
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-dark mb-1">Email Address</label>
+            <input type="email" id="m_adminEmail" class="form-control form-control-sm bg-light border-0 shadow-none" placeholder="admin@npse.co.in">
+          </div>
+          <button class="btn btn-primary btn-sm w-100 fw-bold py-2" onclick="submitNewAdmin()" style="border-radius: 8px;">
+            AUTHORIZE NOW
+          </button>
+        </div>
+      </div>
+      <h6 class="small fw-bold text-muted text-uppercase mb-3 px-1">Authorized Personnel</h6>
+      <div id="subAdminList" class="d-grid gap-2"></div>
+    </div>
+  </div>
+</div>
+
+<div class="bg-white shadow-sm border-bottom py-3 px-4 w-100 sticky-top" style="z-index: 1000;">
+  <div class="d-flex justify-content-between align-items-center">
+    
+    <div class="d-flex align-items-center">
+      <img src="https://drive.google.com/thumbnail?id=1iHhwmvkdlDIbWs-zH0DrSNn60nEtBxrE&sz=w800" alt="NPSE Logo" style="height: 40px; margin-right: 15px; object-fit: contain;">
+      <div>
+        <h5 class="text-primary m-0 fw-bold" style="letter-spacing: 0.5px;">NPSE Automation Pvt. Ltd.</h5>
+        <small class="text-muted fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">Gatepass Admin Console</small>
+      </div>
+    </div>
+    
+    <div class="d-flex align-items-center gap-2">
+      <button id="alertToggleBtn" class="btn btn-sm btn-outline-primary fw-bold" onclick="setupAdminAlerts()">
+  <i class="bi bi-bell-fill me-1"></i> Turn On Alerts
+</button>
+      <button class="btn btn-outline-dark btn-sm px-3 fw-bold d-none" id="masterMenuBtn" type="button" data-bs-toggle="offcanvas" data-bs-target="#masterSidebar">
+        <i class="bi bi-list me-1"></i> MASTER TOOLS
+      </button>
+      <span class="badge bg-light text-dark border me-3 py-2 px-3 shadow-sm" style="font-size: 0.85rem;">
+  <i class="bi bi-person-circle me-1 text-primary"></i> 
+  <span id="displayAdminName">Loading...</span>
+</span>
+      <button class="btn btn-outline-primary btn-sm px-3 fw-bold" onclick="openMasterSettings()">
+        <i class="bi bi-gear-fill me-1"></i> SETTINGS
+      </button>
+      <button class="btn btn-success btn-sm px-3 fw-bold" onclick="downloadReport()">
+        <i class="bi bi-file-earmark-spreadsheet me-1"></i> REPORT
+      </button>
+      <button class="btn btn-outline-danger btn-sm px-3 fw-bold" onclick="logoutUser()">LOGOUT</button>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid py-4 px-4">
+  
+  <div class="bg-white p-3 rounded-4 shadow-sm mb-4 border border-light-subtle">
+    <div class="d-flex align-items-center gap-2 mb-3" style="flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px;">
+  
+  <input type="text" id="f_id" class="form-control form-control-sm bg-light fw-bold" placeholder="ID Search" style="min-width: 120px;" onkeyup="adminMultiFilter()">
+  
+  <input type="date" id="f_date" class="form-control form-control-sm bg-light fw-bold text-muted" style="min-width: 135px;" onchange="onDateFilterChange()">
+  
+  <input type="text" id="f_name" class="form-control form-control-sm bg-light fw-bold" placeholder="Name Search" style="min-width: 150px;" onkeyup="adminMultiFilter()">
+  
+  <select id="f_dept" class="form-select form-select-sm bg-light text-muted fw-bold" style="min-width: 130px;" onchange="adminMultiFilter()">
+    <option value="">All Depts</option>
+    <option value="Electrical">Electrical</option>
+    <option value="Design">Design</option>
+    <option value="Production">Production</option>
+    <option value="Machine Shop">Machine Shop</option>
+    <option value="Quality">Quality</option>
+    <option value="Assembly">Assembly</option>
+    <option value="Assembly 2">Assembly 2</option>
+    <option value="Account">Account</option>
+    <option value="Purchase">Purchase</option>
+    <option value="Fabrication">Fabrication</option>
+    <option value="HR">HR</option>
+    <option value="MIS">MIS</option>
+  </select>
+  
+  <select id="f_reason_cat" class="form-select form-select-sm bg-light text-muted fw-bold" style="min-width: 140px;" onchange="adminMultiFilter()">
+    <option value="">All Reasons</option>
+    <option value="Official Visit">Official Visit</option>
+    <option value="Personal Work">Personal Work</option>
+    <option value="Lunch">Lunch Break</option>
+    <option value="Medical">Medical</option>
+    <option value="Field Work (All-Day)">Field Work (All-Day)</option>
+  </select>
+  
+  <input type="text" id="filterApprover" class="form-control form-control-sm bg-light fw-bold" placeholder="Approver Name" style="min-width: 150px;" onkeyup="adminMultiFilter()">
+  
+  <button class="btn btn-sm btn-dark fw-bold rounded-3 shadow-sm px-3" onclick="clearFilters()" title="Clear Filters" style="min-width: 40px; flex-shrink: 0;">
+    <i class="bi bi-arrow-counterclockwise"></i>
+  </button>
+
+</div>
+
+    <div class="d-flex align-items-center gap-2 overflow-auto pb-1 custom-scrollbar" id="status-pill-bar">
+      <span class="text-muted small fw-bolder text-uppercase me-2" style="letter-spacing: 1px; font-size: 0.7rem;"><i class="bi bi-funnel-fill me-1"></i>Filter Status:</span>
+      <button class="filter-pill active all-pill" onclick="setStatusFilter(this, '')">All Passes</button>
+      <button class="filter-pill pending-pill" onclick="setStatusFilter(this, 'PENDING')"> Pending</button>
+      <button class="filter-pill approved-pill" onclick="setStatusFilter(this, 'APPROVED')"> Approved</button>
+      <button class="filter-pill out-pill" onclick="setStatusFilter(this, 'OUT')"> Out</button>
+      <button class="filter-pill completed-pill" onclick="setStatusFilter(this, 'COMPLETED')"> Returned</button>
+      <button class="filter-pill late-pill" onclick="setStatusFilter(this, 'LATE')">Late Returns</button>
+      <button class="filter-pill rejected-pill" onclick="setStatusFilter(this, 'REJECTED')">Rejected</button>
+      <button class="filter-pill expired-pill" onclick="setStatusFilter(this, 'EXPIRED')">Expired</button>
+      <button class="filter-pill field-pill" onclick="setStatusFilter(this, 'FIELD')">Field Work</button>
+      <input type="hidden" id="f_status" value="">
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm border border-light-subtle">
+  
+<div class="btn-group shadow-sm" role="group">
+
+  <input type="radio" class="btn-check" name="dashToggle" id="btnToggleEmp" 
+         checked onchange="switchDashboardMode('emp')">
+  <label class="btn btn-outline-primary fw-bold px-4" for="btnToggleEmp">
+    Employees
+  </label>
+
+  <input type="radio" class="btn-check" name="dashToggle" id="btnToggleVis" 
+         onchange="switchDashboardMode('vis')">
+  <label class="btn btn-outline-primary fw-bold px-4" for="btnToggleVis">
+    Visitors
+  </label>
+
+  <input type="radio" class="btn-check" name="dashToggle" id="btnToggleSec" 
+         onchange="switchDashboardMode('sec')">
+  <label class="btn btn-outline-primary fw-bold px-4" for="btnToggleSec" 
+         id="lblToggleSec" style="display:none;">
+     Security
+  </label>
+
+</div>
+
+  <div class="d-flex align-items-center">
+    <i class="bi bi-calendar3 text-primary me-2 fs-5"></i>
+    <select id="globalTimeFilter" class="form-select form-select-sm fw-bold border-primary text-primary shadow-sm" style="width: 160px; cursor: pointer;" onchange="refreshCurrentDashboard()">
+      <option value="today" selected>Today's Data</option>
+      <option value="week">This Week</option>
+      <option value="month">This Month</option>
+      <option value="all">All Time</option>
+    </select>
+  </div>
+</div>
+
+<div id="visitorFilterBar" class="bg-white p-3 rounded-4 shadow-sm mb-4 border border-light-subtle d-none">
+  <div class="row g-2">
+   <div class="col-md-3">
+      <div class="input-group input-group-sm shadow-none">
+        <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-badge"></i></span>
+        <select id="v_f_host" class="form-select border-start-0 bg-light fw-bold text-muted" onchange="visitorMultiFilter()">
+          <option value="">All Hosts</option>          
+            <option value="Mr. Uday Patil">Mr. Uday Patil</option>
+            <option value="Mr. Nitin Surve">Mr. Nitin Surve</option>      
+            <option value="Mr. Pravin paturde">Mr. Pravin Paturde</option>      
+            <option value="Prerana manohar salunkhe">Prerana Salunkhe</option>
+            <option value="Mr. Namdev More">Mr. Namdev More</option>
+            <option value="Mr. NILESH NARWADE">Mr. Nilesh Narwade</option>
+            <option value="Mr. Piyush Bhat">Mr. Piyush Bhat</option>
+            <option value="Mr. Parvej Khan">Mr. Parvej Khan</option>
+            <option value="Mr. Deepak Dhangar">Mr. Dipak Dhangar</option>          
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <input type="text" id="v_f_visitor" class="form-control form-control-sm bg-light fw-bold" placeholder="🔍 Search Visitor Name" onkeyup="visitorMultiFilter()">
+    </div>
+    <div class="col-md-3">
+      <select id="v_f_status" class="form-select form-select-sm bg-light fw-bold text-muted" onchange="visitorMultiFilter()">
+        <option value="">All Statuses</option>
+        <option value="PENDING">Pending</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="p-3 border-0 rounded-3 bg-white shadow-sm text-center border-start border-warning border-5">
+        <small class="text-muted d-block fw-bold"><i class="bi bi-box-arrow-right me-1"></i>CURRENTLY OUT</small>
+        <h3 id="adm_out" class="m-0 text-warning fw-bold">0</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 border-0 rounded-3 bg-white shadow-sm text-center border-start border-success border-5">
+        <small class="text-muted d-block fw-bold"><i class="bi bi-box-arrow-in-left me-1"></i>TOTAL RETURNS</small>
+        <h3 id="adm_in" class="m-0 text-success fw-bold">0</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 border-0 rounded-3 bg-white shadow-sm text-center border-start border-primary border-5">
+        <small class="text-muted d-block fw-bold"><i class="bi bi-clock-history me-1"></i>ON-TIME</small>
+        <h3 id="adm_ontime" class="m-0 text-primary fw-bold">0</h3>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-3 border-0 rounded-3 bg-white shadow-sm text-center border-start border-danger border-5">
+        <small class="text-muted d-block fw-bold"><i class="bi bi-exclamation-triangle me-1"></i>LATE ENTRIES</small>
+        <h3 id="adm_late" class="m-0 text-danger fw-bold">0</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-5" style="border-radius: 15px;">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center border-0 py-3 px-4">
+      <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-activity me-2 text-primary"></i>Real-time Gatepass Logs</h6>
+      <button class="btn btn-light btn-sm border fw-bold" onclick="refreshCurrentDashboard()">
+        <i class="bi bi-arrow-clockwise me-1"></i> Refresh Logs
+      </button>
+    </div>
+    
+    <div class="table-responsive">
+      <div id="adminLoader" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <h6 class="mt-2 text-muted">Updating system...</h6>
+      </div>
+
+      <div id="adminTableContainer" class="d-none px-2 pb-2">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-light text-muted">
+  <tr>
+    <th class="ps-3 border-0">ID</th>
+    <th class="border-0">DATE</th> <th class="border-0">NAME</th>
+    <th class="border-0">DEPT</th>
+    <th class="border-0">REASON & TIME</th>
+    <th class="border-0">STATUS</th>
+    <th class="text-center border-0">ACTIONS / APPROVER</th>
+  </tr>
+</thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="liveApprovalPopup" class="position-fixed bottom-0 end-0 p-4" style="z-index: 1080; display: none;">
+  <div class="card shadow-lg border-0" style="width: 360px; border-radius: 20px; overflow: hidden; animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);">
+    <div class="card-header bg-dark text-white border-0 d-flex justify-content-between align-items-center p-3">
+      <h6 class="mb-0 fw-bold" style="letter-spacing: 0.5px;">
+        <i class="bi bi-bell-fill text-warning me-2" style="animation: ring 2s infinite;"></i>NEW REQUEST
+      </h6>
+      <button type="button" class="btn-close btn-close-white" onclick="document.getElementById('liveApprovalPopup').style.display='none'"></button>
+    </div>
+    <div class="card-body bg-white p-4 text-center">
+      <div class="mb-2"><span class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-1 font-monospace shadow-sm" id="popupPassId">GP-XXXX</span></div>
+      <h4 class="fw-bolder text-dark mb-1" id="popupName" style="letter-spacing: -0.5px;">Employee Name</h4>
+      <p class="text-primary fw-bold small mb-3"><i class="bi bi-building me-1"></i><span id="popupDept">Department</span></p>
+      <div class="bg-light rounded-4 p-3 mb-4 text-start border border-light-subtle shadow-inner">
+        <label class="text-muted fw-bold d-block mb-1" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px;">Reason for Exit</label>
+        <span class="text-dark fw-bolder d-block mb-3 fs-6" id="popupReason">Official Visit</span>
+        <label class="text-muted fw-bold d-block mb-1" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px;">Requested Time</label>
+        <span class="text-danger fw-bolder d-block fs-5" id="popupOutTime">11:30 AM</span>
+      </div>
+      <div class="row g-2">
+        <div class="col-6"><button class="btn btn-outline-danger w-100 fw-bold rounded-pill py-3" onclick="handlePopupAction('REJECTED')">REJECT</button></div>
+        <div class="col-6"><button class="btn btn-success w-100 fw-bold rounded-pill py-3 shadow-sm" onclick="handlePopupAction('APPROVED')">APPROVE</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="tripModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+      <div class="modal-header bg-light border-0 py-3">
+        <h5 class="modal-title fw-bold text-primary"><i class="bi bi-journal-text me-2"></i>Trip History Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-hover align-middle mb-0" style="font-size: 0.85rem;">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-3">TRIP</th>
+              <th>REASON / DESTINATION</th>
+              <th>OUT TIME</th>
+              <th>IN TIME</th>
+            </tr>
+          </thead>
+          <tbody id="tripModalBody"></tbody>
+        </table>
+      </div>
+      <div class="modal-footer bg-light d-flex justify-content-between py-2 border-top-0">
+        <span class="fw-bold text-secondary small">Total Trips: <span id="tripTotalCount" class="text-dark fs-5 mb-0">0</span></span>
+        <span class="fw-bold text-secondary small">Total Time: <span id="tripTotalTime" class="text-primary fs-5 mb-0">0h 0m</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="adminSettingsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="fw-bold text-primary"><i class="bi bi-gear-fill me-2"></i>Master Settings</h5>
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="mb-3">
+          <label class="small fw-bold text-muted">New Admin Login ID</label>
+          <input type="text" id="updId" class="form-control bg-light border-0 shadow-none" placeholder="Change M_ADMIN to something else">
+        </div>
+        <div class="mb-3">
+          <label class="small fw-bold text-muted">New Display Name</label>
+          <input type="text" id="updName" class="form-control bg-light border-0 shadow-none" placeholder="Your Name">
+        </div>
+        <div class="mb-4">
+          <label class="small fw-bold text-muted">New Password</label>
+          <input type="password" id="updPass" class="form-control bg-light border-0 shadow-none" placeholder="New Password">
+        </div>
+        <button id="saveAdminBtn" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm" onclick="saveMasterSettings()">UPDATE EVERYTHING</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 📸 GUARD PHOTO POPUP MODAL -->
+<div class="modal fade" id="guardPhotoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 15px;">
+      <div class="modal-header bg-dark text-white border-0">
+        <h5 class="modal-title fw-bold"><i class="bi bi-camera-fill me-2"></i> Guard Live Snapshot</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-3">
+        <img id="guardPopupImage" src="" class="img-fluid rounded" style="max-height: 400px; object-fit: contain; width: 100%;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* CSS STYLES */
+  @keyframes slideInUp { from { transform: translateY(120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes ring { 0% { transform: rotate(0); } 10% { transform: rotate(15deg); } 20% { transform: rotate(-10deg); } 30% { transform: rotate(5deg); } 40% { transform: rotate(-5deg); } 50%, 100% { transform: rotate(0); } }
+  .filter-pill { background: #f8f9fa; border: 1px solid #dee2e6; color: #6c757d; border-radius: 50rem; padding: 0.35rem 1rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
+  .filter-pill:hover { background: #e9ecef; transform: translateY(-1px); }
+  .filter-pill.active.all-pill { background: #212529; color: #fff; border-color: #212529; box-shadow: 0 4px 10px rgba(33,37,41,0.2); }
+  .filter-pill.active.pending-pill { background: #ffc107; color: #000; border-color: #ffc107; box-shadow: 0 4px 10px rgba(255,193,7,0.3); }
+  .filter-pill.active.approved-pill { background: #198754; color: #fff; border-color: #198754; box-shadow: 0 4px 10px rgba(25,135,84,0.3); }
+  .filter-pill.active.out-pill { background: #0dcaf0; color: #000; border-color: #0dcaf0; box-shadow: 0 4px 10px rgba(13,202,240,0.3); }
+  .filter-pill.active.completed-pill { background: #0d6efd; color: #fff; border-color: #0d6efd; box-shadow: 0 4px 10px rgba(13,110,253,0.3); }
+  .filter-pill.active.rejected-pill { background: #dc3545; color: #fff; border-color: #dc3545; box-shadow: 0 4px 10px rgba(220,53,69,0.3); }
+  .filter-pill.active.expired-pill { background: #6c757d; color: #fff; border-color: #6c757d; box-shadow: 0 4px 10px rgba(108,117,125,0.3); }
+  .filter-pill.active.late-pill { background: #fd7e14; color: #fff; border-color: #fd7e14; box-shadow: 0 4px 10px rgba(253,126,20,0.3); }
+  .filter-pill.active.field-pill { background: #20c997; color: #fff; border-color: #20c997; box-shadow: 0 4px 10px rgba(32,201,151,0.3); }
+  .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 4px; }
+</style>
+
+<script>
+  // Function to open the modal correctly using Bootstrap 5
+  function openMasterSettings() {
+    var myModal = new bootstrap.Modal(document.getElementById('adminSettingsModal'));
+    myModal.show();
+  }
+
+  // Master Save Function
+  function saveMasterSettings() {
+    const nid = document.getElementById('updId').value.trim();
+    const nnm = document.getElementById('updName').value.trim();
+    const nps = document.getElementById('updPass').value.trim();
+    const btn = document.getElementById('saveAdminBtn');
+
+    if(!nid && !nnm && !nps) {
+      alert("Please fill at least one field to update.");
+      return;
+    }
+
+    btn.innerText = "UPDATING...";
+    btn.disabled = true;
+
+    google.script.run.withSuccessHandler(function(res) {
+      btn.innerText = "UPDATE EVERYTHING";
+      btn.disabled = false;
+      if(res === "Success") {
+        alert("Settings Updated! Please use your new credentials on next login.");
+        bootstrap.Modal.getInstance(document.getElementById('adminSettingsModal')).hide();
+        location.reload(); 
+      } else {
+        alert("Update Error: " + res);
+      }
+    }).updateAdminCredentials(nid, nnm, nps);
+  }
+</script>
+
+<script>
+  // ==========================================
+  // DESKTOP NOTIFICATION & SOUND ENGINE
+  // ==========================================
+
+  // Load the sound into memory
+  const gatepassAlertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+
+// Function 1: Asks for permission when the Admin clicks the button
+function setupAdminAlerts() {
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notifications.");
+    return;
+  }
+
+  Notification.requestPermission().then(function(permission) {
+    if (permission === "granted") {
+      alert("✅ Notifications Enabled! You will now hear alerts even if this tab is in the background.");
+      
+      // Play a tiny silent sound to unlock the browser's auto-play block
+      gatepassAlertSound.volume = 0.01;
+      gatepassAlertSound.play().catch(e => console.log("Audio unlock failed:", e));
+      
+      // Update button to show it's active
+      document.getElementById('alertToggleBtn').classList.replace('btn-outline-primary', 'btn-primary');
+      document.getElementById('alertToggleBtn').innerHTML = '<i class="bi bi-bell-check-fill me-1"></i> Alerts Active';
+    } else {
+      // THE FIX: We updated this error message to give exact instructions to your admins!
+      alert("❌ Chrome blocked the automatic permission pop-up because this is a secure Google App.\n\nTO FIX THIS:\n1. Click the 'Settings' icon (the two lines/padlock) next to the URL at the top left of your browser.\n2. Turn the 'Notifications' toggle to ON.\n3. Refresh this page and click 'Turn On Alerts' again.");
+    }
+  });
+}
+
+  // Function 2: Triggers the actual sound and popup
+  function triggerNewGatepassAlert(employeeName) {
+    gatepassAlertSound.volume = 1.0;
+    gatepassAlertSound.play().catch(e => console.log("Browser blocked background sound.", e));
+
+    if ("Notification" in window && Notification.permission === "granted") {
+      let popup = new Notification("🔔 New Gatepass Request!", {
+        body: employeeName + " has submitted a gatepass and is waiting for approval.",
+        requireInteraction: true 
+      });
+
+      popup.onclick = function() {
+        window.focus();
+        this.close();
+      };
+    }
+  }
+</script>
