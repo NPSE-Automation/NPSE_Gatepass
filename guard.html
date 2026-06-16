@@ -299,7 +299,7 @@ function stopScanner() {
       });
 
       if (code && code.data) {
-        onQRDetected(code.data); // 📸 आधी फोटो काढा (stopScanner च्या वर पाहिजे)
+        onQRDetected(code.data); // 📸 आधी फोटो काढा
         stopScanner();           // 🛑 मग कॅमेरा बंद करा
         return; 
       }
