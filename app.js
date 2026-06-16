@@ -1080,17 +1080,17 @@ tbody.innerHTML += `
 
 
 // =========================================================
-// 🏢 VISITOR QUEUE MANAGEMENT & ROUTING
+// 🏢 VISITOR / EMPLOYEE / SECURITY QUEUE MANAGEMENT & ROUTING
 // =========================================================
 
-// हे REPLACE करा
 function refreshCurrentDashboard() {
-  // तिन्ही modes handle करा
-  if (document.getElementById('btnToggleSec') && 
-      document.getElementById('btnToggleSec').checked) {
+  const tbody = document.getElementById('adminTableBody');
+  // 🚀 INSTANT CLEAR: रिफ्रेश दाबल्याक्षणी जुना डेटा उडवा आणि लोडिंग दाखवा
+  if(tbody) tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5"><div class="spinner-border text-primary"></div><p class="mt-2 text-muted fw-bold">Refreshing Data...</p></td></tr>`;
+
+  if (document.getElementById('btnToggleSec') && document.getElementById('btnToggleSec').checked) {
     loadGuardDashboard();
-  } else if (document.getElementById('btnToggleVis') && 
-             document.getElementById('btnToggleVis').checked) {
+  } else if (document.getElementById('btnToggleVis') && document.getElementById('btnToggleVis').checked) {
     loadVisitorDashboard();
   } else {
     loadAdminDashboard();
@@ -1102,26 +1102,41 @@ function switchDashboardMode(mode) {
   const visFilters = document.getElementById('visitorFilterBar');
   const kpiCards   = document.querySelector('.row.g-3.mb-4');
   const thead      = document.querySelector('#adminTableContainer thead tr');
+  const tbody      = document.getElementById('adminTableBody');
+
+  // 🚀 INSTANT CLEAR: टॅब बदलल्याक्षणी जुना डेटा गायब करा म्हणजे मिक्स-अप होणार नाही!
+  if(tbody) {
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5"><div class="spinner-border text-primary"></div><p class="mt-2 text-muted fw-bold">Loading secure data...</p></td></tr>`;
+  }
 
   if (mode === 'emp') {
     if (empFilters) empFilters.style.display = 'block';
     if (visFilters) visFilters.classList.add('d-none');
     if (kpiCards)   kpiCards.style.display = 'flex';
-    if (thead) thead.innerHTML = `<th>ID</th><th>NAME</th><th>DEPT</th><th>REASON & TIME</th><th>STATUS</th><th>ACTIONS / APPROVER</th>`;
+    
+    // Employee Headers
+    if (thead) thead.innerHTML = `<th class="ps-3 border-0">ID</th><th class="border-0">DATE</th><th class="border-0">NAME</th><th class="border-0">DEPT</th><th class="border-0">REASON & TIME</th><th class="border-0">STATUS</th><th class="text-center border-0">ACTIONS / APPROVER</th>`;
+    
     loadAdminDashboard();
 
   } else if (mode === 'vis') {
     if (empFilters) empFilters.style.display = 'none';
     if (visFilters) visFilters.classList.remove('d-none');
     if (kpiCards)   kpiCards.style.display = 'none';
-    if (thead) thead.innerHTML = `<th>VISITOR ID</th><th>VISITOR & COMPANY</th><th>HOST NAME</th><th>REASON & TIME</th><th>STATUS</th><th>ACTIONS</th>`;
+    
+    // Visitor Headers
+    if (thead) thead.innerHTML = `<th class="ps-3 border-0">VISITOR ID</th><th class="border-0">VISITOR & COMPANY</th><th class="border-0">HOST NAME</th><th class="border-0">REASON & TIME</th><th class="border-0">STATUS</th><th class="text-center border-0">ACTIONS</th>`;
+    
     loadVisitorDashboard();
 
   } else if (mode === 'sec') {
-    // 🛡️ NEW: Security Guard Tour view
     if (empFilters) empFilters.style.display = 'none';
     if (visFilters) visFilters.classList.add('d-none');
     if (kpiCards)   kpiCards.style.display = 'none';
+    
+    // Security Guard Headers
+    if (thead) thead.innerHTML = `<th class="ps-3 border-0" style="width: 20%;">TOUR HOUR</th><th class="border-0" style="width: 35%;">✅ COMPLETED SCANS</th><th class="border-0" style="width: 30%;">❌ MISSED CHECKPOINTS</th><th class="border-0 text-center" style="width: 15%;">TOUR STATUS</th>`;
+    
     loadGuardDashboard();
   }
 }
