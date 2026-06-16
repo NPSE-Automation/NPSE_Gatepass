@@ -2533,13 +2533,13 @@ function loadGuardDashboard() {
                  let clickAction = '';
                  let icon = `<i class="bi bi-check-circle-fill me-1"></i>`;
                  
-                 // 📸 EXACT FIX: मोठा फोटो HTML मध्ये टाकण्याऐवजी Vault मध्ये सेव्ह करा!
                  if (scan.photo && scan.photo.length > 50) {
-                     let vaultKey = "img_" + h + "_" + cp.id;
-                     window.guardPhotoVault[vaultKey] = scan.photo;
+                     // 🚨 BUG FIX: HTML क्रॅश होऊ नये म्हणून ID मधले spaces काढले
+                     let safeVaultKey = "img_" + h + "_" + cp.id.replace(/[^a-zA-Z0-9]/g, "_");
+                     window.guardPhotoVault[safeVaultKey] = scan.photo; 
                      
-                     clickAction = `onclick="window.showGuardPhoto('${vaultKey}')" style="cursor:pointer;" title="Click to view Photo"`;
-                     icon = `<i class="bi bi-camera-fill me-1 fs-6"></i>`;
+                     clickAction = `onclick="window.showGuardPhoto('${safeVaultKey}')" style="cursor:pointer;" title="Click to view Photo"`;
+                     icon = `<i class="bi bi-camera-fill text-dark fs-6 me-1"></i>`;
                  }
                  
                  completedHTML += `<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 me-1 mb-2 shadow-sm p-2" ${clickAction}>${icon}${cp.name} (${scan.time})</span>`;
@@ -2576,8 +2576,25 @@ function loadGuardDashboard() {
 }
 
 // पॉप-अप ओपन करणारे फंक्शन
+// पॉप-अप ओपन करणारे फंक्शन
 window.showGuardPhoto = function(vaultKey) {
-    document.getElementById('guardPopupImage').src = window.guardPhotoVault[vaultKey]; // 📸 Vault मधून फोटो घेणार
-    const photoModal = new bootstrap.Modal(document.getElementById('guardPhotoModal'));
-    photoModal.show();
+    try {
+        let photoData = window.guardPhotoVault[vaultKey];
+        if (!photoData) {
+            alert("Sorry, no photo found for this record.");
+            return;
+        }
+        
+        document.getElementById('guardPopupImage').src = photoData;
+        
+        // 🚨 BUG FIX: Modal योग्य पद्धतीने ओपन करा जेणेकरून स्क्रीन फ्रीझ होणार नाही
+        let modalEl = document.getElementById('guardPhotoModal');
+        let photoModal = bootstrap.Modal.getInstance(modalEl);
+        if (!photoModal) {
+            photoModal = new bootstrap.Modal(modalEl);
+        }
+        photoModal.show();
+    } catch (err) {
+        console.error(err);
+    }
 };
