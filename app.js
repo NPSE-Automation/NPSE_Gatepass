@@ -2533,16 +2533,21 @@ function loadGuardDashboard() {
                  let clickAction = '';
                  let icon = `<i class="bi bi-check-circle-fill me-1"></i>`;
                  
-                 if (scan.photo && scan.photo.length > 50) {
-                     // 🚨 BUG FIX: HTML क्रॅश होऊ नये म्हणून ID मधले spaces काढले
+                 // 🛡️ EXACT FIX: फॉलबॅक लावलाय, ज्यामुळे undefined कधीच येणार नाही!
+                 let displayTime = typeof scan === 'object' ? scan.time : scan;
+                 let photoData = typeof scan === 'object' ? scan.photo : "";
+                 
+                 // 📸 फोटो असेल तर Vault मध्ये सेव्ह करा
+                 if (photoData && photoData.length > 50) {
                      let safeVaultKey = "img_" + h + "_" + cp.id.replace(/[^a-zA-Z0-9]/g, "_");
-                     window.guardPhotoVault[safeVaultKey] = scan.photo; 
+                     window.guardPhotoVault = window.guardPhotoVault || {};
+                     window.guardPhotoVault[safeVaultKey] = photoData;
                      
                      clickAction = `onclick="window.showGuardPhoto('${safeVaultKey}')" style="cursor:pointer;" title="Click to view Photo"`;
                      icon = `<i class="bi bi-camera-fill text-dark fs-6 me-1"></i>`;
                  }
                  
-                 completedHTML += `<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 me-1 mb-2 shadow-sm p-2" ${clickAction}>${icon}${cp.name} (${scan.time})</span>`;
+                 completedHTML += `<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 me-1 mb-2 shadow-sm p-2" ${clickAction}>${icon}${cp.name} (${displayTime})</span>`;
              } else {
                  missedHTML += `<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 me-1 mb-2 shadow-sm p-2"><i class="bi bi-x-circle-fill me-1"></i>${cp.name}</span>`;
                  missedCount++;
@@ -2576,7 +2581,6 @@ function loadGuardDashboard() {
 }
 
 // पॉप-अप ओपन करणारे फंक्शन
-// पॉप-अप ओपन करणारे फंक्शन
 window.showGuardPhoto = function(vaultKey) {
     try {
         let photoData = window.guardPhotoVault[vaultKey];
@@ -2587,7 +2591,6 @@ window.showGuardPhoto = function(vaultKey) {
         
         document.getElementById('guardPopupImage').src = photoData;
         
-        // 🚨 BUG FIX: Modal योग्य पद्धतीने ओपन करा जेणेकरून स्क्रीन फ्रीझ होणार नाही
         let modalEl = document.getElementById('guardPhotoModal');
         let photoModal = bootstrap.Modal.getInstance(modalEl);
         if (!photoModal) {
