@@ -67,17 +67,14 @@
 </head>
 <body id="appBody">
 
-  <!-- 🏢 TOP BAR -->
   <div class="top-bar">
-    <!-- 🚨 LOGO: src मध्ये तुझ्या लोगोची लिंक टाक -->
-    <img src="https://npse.co.in/wp-content/uploads/2023/06/NPSE-Logo-1.png" alt="Logo" class="company-logo" id="companyLogo">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQEAAABqCAYAAAC8qOTQAAAACXBIWXMAAAsTAAALEwEAmpwYAAAF52lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0MzYwLCAyMDIwLzAyLzEzLTAxOjA3OjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpBOUE1NjI0NEYwMjlFNTExQjc3NDhBQTk0RjgzNkRBMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNEY1QUVCMzJBMDYxMUU1OTZBNTk5RkMzQzNENjc1MSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3NGQ1MTEzZC02ZGFmLWM5NDUtYjM3NS1iNzJmY2UxNGVmNjYiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIFdpbmRvd3MiIHhtcDpDcmVhdGVEYXRlPSIyMDIzLTA2LTAxVDEyOjM5OjQwKzA1OjMwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyMy0wNi0wMVQxMjo0MDozNiswNTozMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyMy0wNi0wMVQxMjo0MDozNiswNTozMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkFBQTU2MjQ0RjAyOUU1MTFCNzc0OEFBOTRGODM2REExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkE5QTU2MjQ0RjAyOUU1MTFCNzc0OEFBOTRGODM2REExIi8+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjc0ZDUxMTNkLTZkYWYtYzk0NS1iMzc1LWI3MmZjZTE0ZWY2NiIgc3RFdnQ6d2hlbj0iMjAyMy0wNi0wMVQxMjo0MDozNiswNTozMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjEgKFdpbmRvd3MpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDwvcmRmOlNlcT4gPC94bXBNTTpIaXN0b3J5PiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PtSzFrsAACrUSURBVHja7X13lF1Xdfdv73POva9MHxVLtmTZkiUXTDG2MY4h4FASmgmYFhaGwBfA4DghEEIWCaF9QCAhoQUIEMqXYMehGkwLHceFZmxs4yJk2erSaEZTXrv3nL2/P+570zTSjOyZAcL5rfXWmvXem3vPO/ec39l9k6oiIiLitxccpyAiIpJAREREJIGIiIhIAhEREZEEIiIiIglEREREEoiIiIgkEBEREUkgIiIikkBEREQkgYiIiEgCERERkQQiIiIiCUREREQSiIiIiCQQERHxvw529hsPechrlvB22q9q3qlqHkSU3RSCvRaQ243BzizTodHRJtat68Lo6DBELEql4+D9MLZv/zROPvmPUK2WUSo5DA/XISIgYjA7TExkuPfeLqjSMYyFcNJJHmvWMG6++UN47GPPQrXaCxGZ89vOAQcPlvD1r98H4HuHfb59wwacmCaQeo6hmkGtvwLAwyqhnio2+BzpIhdwkSTBB7ffgw09A3jyxDrc1z8BST0oZ4xXFc46JEmC6YVjRIHqRBNrpAmAlne1MQP33ovdgyfBhzLQ10KZCWVSKAGNFuADQASoKnImkCjAFgP77kNXaoCVqwDvl3GHWGw7eAC/GGvgYcefhSwkAEKxgQpQRTIZW6QAAAnuDshgYAhpjB1AtVdC7fzeG16/HCUdYV0sC54Dt27Czshq/HDsZv5t959hIADBLRwEKJeIzjKHzRMx51uqlqjwCyG3G4Npy2XxfFd9XlZqqRIqOiPhVSAJLXW5MJK+LAMYwVAnM6BfBBdbSBX195dd6r9+1tvwVVf6sKrYv+2kVERFJYEnvNwjwCcxoi93avh8BIIQgrKoXpmnPhYD8nzyfuFI1v8L7+l1ArIUYEbEkWtocQvtSviwR0ul6eeekV1UUKoBCJIdIONVafmOSpFefeOIzXk3keiMRREQsCwksrTYwaVU5qu0gQFWgKmB2W3p7T34XkX4GwKPiI4uI+M0mgQWiIx0IRDzyvEbM9nHNZvjcxETzMmYy8dFFRPyvJoHDVRTVACJeEQK9TwR/T6RpfHwREb81JDClJhAB1rpXE5l/AVCOjzAi4oFhub0DhbBP9/8mIh5ECueSF+e59wBesRA7Q0RExAJJoLDdLQ1EkFprVzJbiOTtmATFscUCEFQDRBTW2peKyIiIvi4+yoiIRSIB5qWzuTHrkKp+1Xv/ZCLuAhTMNMM9uDBCoPb3A5jxV2mKO1Xp48dKJqEdohoREUlg+hvWHEEfV4QwXaSfrjosTLwXob3lsn05UbalVpMzmPnxeY7HMOM4Y1ybDPyCN3FhI7Aol/kt69c3bmq13M8WQgQiQLkMDAwo8jwugohIAjNwxx2jc34xTQ3WrSvBGEWWAaoEIgWRgtku6GaqCmvNIWPsjRMT2Y2qdOUJJ+w7/sCBgcfkOZ5CxOcz2xVFjEBYgFRAEAlgtsf39fm/qdfNc4nIz/d/3gO9vYpSCZEEIiIJzH6j0ZjrJFZ4r20JoAj1LTL2Cp2eWZBljFYL6OsDRBh5LmCemwim5SfUq9Xs7qEhvRuQK5j5YSLheQA9m8gOTqkI853sAoCfXC4nF4+M3HLl3r3fnvd/vH8k1q27EEQTcRVERBKYfbrOBWNonlO+ELOJCESCej1BkngkSQDAYM4h4hFCBcZMHb8hdJiCJojwgzzX60KQTyUJ/oSZn0VkuucnAwWzKRljXiJS+5L3o7X5fniej4HIxhUQEUlgMS82l5EtBMCYDK1WH1RTlMtFrQBjMhwhxToQ0Q157m8wRj/vHP01M58/ZTycmwSKEGP6Hee6HmftCV8Mged0RaoSnFNUKoMIIYsrICKSwHLchLmO4eHzYMxD8KhH/SluvPHhqNUcuroUznkQHTF24Msi+DEgf+2cfUUIsEciAlVFno+VK5VTLj7ttC1frFYziMwVCxVAVIFqgiw7BOYkroKISAJLDwKzh2Ad/cwDh2awKFDK9DfP46hoV7kOSEEC2sF1lYQAsH7YbQDGveGwH+W561fVCr2vSLGiYQ5pQERwHvz2BNP3L1p8+bdW5vN5DBJxdoWduxYi23bNiJNY3W1iIhlVooVIVgYwzCmONH37h0AkYeIRZoSRkZugaqgt/cMAK1Je8PYGD4EBKlW7ftETEIU5oxuLJdlzc6dPb+7a1eydXZUtAhQrQrK5Sqci26BiIhfAQkcDud8O2hHoZpibOxOMLcwOHg2RLK2qlAYHIeG+F/zPCR9ffzP3hszV7Qws+dazT2kViuDWWeRgGJiwmDFigTG5MdYkzAiIpLAA1YJAJonb0BhTAXMjDQl7N+foVwuwRgGs0KEMDGB91cq/hRjksunIgenNnMIhEpFNvb0ZCVVNKdfm4hhrYGIn0UA87shp4yev16FTRSx1ErEbwgJEAUA3oZQ+BqJEHCURAVjCHkuSNMwWY+w2IgEEfkb5uxMVffYwzemQpVX5zn1Adg7+a4C1jKKQqo6a2yWVcmqkh5JOhABVEFErIDx0y+iMNCjByiVFDC6+ARAhihnotZRmeDwoRktMjCXnz+KhdA81jsrkVPQr8iKSyBQ7dgGrJPjBpDosg+YMgDZr5QEiLQC6CkAzhSpnjYw8PMq0e1rr7/+nHK1an25XN/rPY22B3ozoD8DaLuID0De3vTUVgUyGEMwBjAGIOJxVbyNCGcB1Ht4cVQlzCqbzExwTgDk04KYFCJaXb/+mW/atcueBlCmOvfyJAIBVN68ue/uEE5/MxEOAIVC0i8ZSnQ9oI3ZssUGAM+teHrSsKYrqSC9xVoPpLnaJ6zesJ+d+WxzLPuMEnbOlhIgCpo2P0Z1XQC9/QCVzwmKZTWMkIJlzYYhEfdlErlKge3zb34kLs+eMLFq7QvHgTMpsAJ2WbJGFYAJcF19q3FqJftkK8/eRVTKJx+hMo4UV0PEK3KXPHV07YanQWjLXvCylc8mj5TWnrQ1z/A2HcG18625RSOBIooQAHSlCD22Umk9CcBTmHkQ6BgCA1qtMoxRmPa5yFwEFwH5L1RLX0vTvi8yl69V9WFqAwO9vYSuLoIqQTWB9/RNouwz1tqXFA9CZy43TOkdREUU4/BwOut7jCRprEvT6gtEaNXRy5wXpJSmPMhspHOdrVrBZxrfwHFhHEAC0gCogBh/6IC3GpjTmRRKtOjHLkPRY3mzV7ng4HHZ8wPrm03Al4rfTPDBI20GlD0QaFImeJU15vlKUyrOcp1SCoCSBInqozQJz2gp/RmAG4+yqPphzTutMX+sxEaOLNksmQIrABwBXaXkLbVc7lHNrgBJe3gEpcN5VFTPLvcMvlEJTyZmWNX5JMVFnmdFatJNnjyVeOR5AEaWnARUAWO04hyeHgL+RASPKbIR5bAAHyI/rcIwJjUCIj4NqJ22Zs0FLyOST2bZ6HtE9M7OIUYkYA4ALFQFRASAPgrgaURYOSuZiVWZpkikIJ9t286bteRTrF9/w8MqlaGePLfzbAeCMQ71evjx6GjtYHF/xsOTYfQl41MZVQYIKb+w4vBBE2y5LgLRYsMutkNSAAgCDIDU8tmJyicailer4hOdGc4ZcFM3Ngw8zBAwITJZ5nU5HaVBi/uViR+RqH5MEC5mwh1KRfh38ApiAjNZInpXifglHopMBQYA0/LUvOjMnxJAShAYTnn8lBIPA0rF6lXFPutAytD2mSPQsxND/5EQbW6JIGvPM7dpYKmHTlTMcQUKJl53KmqlZVAHFCL6MOfob5zDM0S4benP56Hsyc0/aTRULdQIIr5UxDyuXOY3GIMrpx56kY9gbdLOIDQ/zbLsOiJ7EeAn96EqxolotDPlqowk8Vi5cvuMx1BkIDYeIWJKC3k81lo0Gq2te/dub2+dPvzL6ttwUnUM9bwMqKJl6feklLzfeJQnVMAAkrYUQKSgB+qR0ELQEQCGGE4VmSrqIqgQDyTGvLNBciuUf1xuOngGcgQ4yAwjIk1bNASaw1KyJHIACEBQRQOChOiMPODNTcXzRDWUyiWUugxUBLVm9nTL/CJRoKmKBABTe/PRcp2oAKuC2CAj7FrRbH2hK28CbAAijKUp1FiACIoAeF2TEF2REG2qiyAASIkKmZSnLXtaugErgASK3BIk02/06MMPLgMJmEuY+R2qtKbYcPk8Mlt7MZAFEbdTh6m9gUlFPDEziJJT+vvdFd5nZ4WQv5nZTBQZfx5moKoBFVkROEmZr6oE4JMZCDit+Z5c4KZpkkqOTZsuH02EVVbreSRYVprqaMhy1qHKpX0jtWr12AUJTw+7MWGkqIu3ThEDA9dKcDfdwFdtTYBWCI4w2j6/AbkdHMgHSVS+wCOJ4VQUEG/M/7hhu1ZCQG5KpoqSIxZaQO/XW3z6fectL+mAI4f6kVpvApvAqYbY7kIsNqjgs9mJIcIqNCSnKgKgW1Bwmpn6WJD1OMV8KRgNU8az/Xc3PvrN6zvge2pAq3MNO7b98yUYMYkIAHBECN4/00v9EMymiyXAKNCrkqNvCLhSjDfAmaACKPeYxczTJaBVCHWoZR0vaE0jQBKRGAwAoWfNzO5AYqD1iJZsuZaBKhXspZdaai2NVj770J5xktIApaI3uJc8hpV3w7nnZ/mmG2nopAAuEFE7gDkTu/tvcwtZTYbVGULM50Zgp7DnP6liK4C9DIimgA8Wq0xqJY7PesaVPgdqZAkBKp8C5BMExuLAiLj4/VZo0kusNacSTT/U2Fm5Hl+jwhuXLFiBSbQhT+iu/HQcBB3SQ8sCUrgZzmmhze16K1nAagxe4fHGq9PrF6TaLJPSMH2gZ25qgTygECOr5O/KAW93RH35KrwIuiW9HFD5ZFn3r7lwKcUQE/DYOVwT4cE0DmYqDAU3u2C+csJo00iLxVOTv/D9gNVM0ZxugZ/f3Jq4Dy3SLh54D9NrN+jAgLTt/sEEYhOTgAlRmflwDcbNfgHb0Gn931eYyUVoCVeIKiogkAADGMBqNJoaGjqDVkAWoA51agFqwFpevXNm7yVr3IFW/QOt9pNPjSbdu67jxSeIWyhXT3Yly7D/usNOL/O2vVLqt32z821u7qNuENaatxUGjhOrYyYFuKZPf9ao82NPKo014xPnzwdZS1epqCD5VTd135uAzdCSHhosGLGP1gTUI5eH0iEf9QNX9rEw3QrJxThcBICYmtLlq+wxQJMFxWx6rdR1dXvU2+cN/G0y6F+ksq4ESDLluV+ECkOXCgGfBT4XA1W/x0oSEaBNycGX321r4DT+0d6XmCCdjgSEvLQQIsoMCQYdW7LNHbSHXsmElgaGgFdXc3zy6Vwum6AGdMoa+37ghh+ItEM63aIyODICP/b9tIeCYRrgbC09BuWJmmBGMYO3fm2LatjiSpotkUVKvxAUZE/FqRgEiCUmkvent3tvNUaJYo7pFlfT/KslVC5Hm2Tt5J/jHGnimCz6nmzyXCXR2x3jmCc4yDB4EkYVQqhCwbh0gOYwgiPE06iPp+RMSvhASS5AB6e2+F94eH1lrbwNjYpmtbrXV3M/sth1f3KYLnRXIQ2YcB9jOAvgrAt6Zfp2hPTsiyJtav/wNYuwIjIxmca6JU6oZIC6odr0Qkg4iIZSMBY1poNtfg4MHzZ2esTor8Im6XMRPfUDVb5g7v7ZQKD2A2Z6riSiD8A6AfBDArKjGgr+9U5LnH+HgdRC0QdYMowPsAY0ooyg5Ob0ISH3pExHQssmEwIIQEWTaAPO897JVlfQihBFV/BREfpCMm13S6CXkAWMHMb7fWXgXgDwDYqaxMgvd1iHgw0zQbRBGMFILBunUOxuTI86IjkTGdgiMLaZ0WERFJ4JguRZSBuY5Od6LZLyB0TuLrVbOvFP9z9E2o6iEiZIx5orXJf1pb+gBzOJ9ZK/P3D1QkSRFrkGWKJKnjhBMOQrUMa6soahV0EoZ0mpTgjqDulKN6ERHVgaNvWKDVonk3dnvDvdc5/3hr+bj5cxQKqYDIdBOZl/b363MA/HcIdBWzXAdglwgwV/GQmeW5FCKjWLGiyHNoNPbDtfe790VrtFKJUNQTv2+mjEOEHt0KEzyECRzJICKSwCw5gBX1OuHQIQNj5hcwRPDjgQF5d5LQO1UZC6n+U0gUALPtBXAxIBcDuI0I30hT+o61yV2quh3QVqfK8FxENZctIgQgSXJs3AgA3wPw3zM+b8CgFJr40dB6nJ4dgieOqyciksD0jcXMSJIUzuUwxiyEBOCcvp9ZzhfB04tqEQs7XTv9D5gNVM0ZxugZ/f3Jq4Dy3SLh54D9NrN+jAgLTt/sEEYhOTgAlRmflwDcbNfgHb0Gn931eYyUVoCVeIKiogkAADGMBqNJoaGjqDVkAWoA51agFqwFpevXNm7yVr3IFW/QOt9p3pRUZY8CEEmAHoKM50CJOcy0+cA7FnMyTqOAT3llfha34Pw2IntaJo0rqCISAIUJEBoNJsYGtmFoiovwE70eiMAtKO7u7ICa/nKUsksmWY8XDAZTKURS6e12QEsgdm/KhluSlfiS12b8PuHbkbdLI62gYjfeCyKYttRB4rafLYtTi/kZQEIVCr6s/POS57nvf6ieO/+RvxNdiMWbZcRWMyXV8K6bAzfKR2PK/rPRk+oxRUUEUlgMVAtG3R10U3bto2/gDn8lNliOWq036+xqsctXR9uSVfBqI8rKCKSwGJJEneel9Fo3PLT3bu/8rFzlW/CBj9dSQCAWFjfggf6zkDX+w+Hb1+HBoDjiIiCTxwFMbEDN7X7iHiF4jkb1TV4UIq+PXaZBaKBjvcmq7ABKcwiF6CiEgCizac4vSn8RCyN4vkzxQJ1zhXlAqiXxPfvAJY78fw1sHz8LPy8ej2E5AoDUREElgSfDcEedbQUOXlqvoTa6ktNXQaaXW25K+CCAiDoYFvVNbjgO1BuqBehxERkQSOUUUAVLmxc+eajzab+P2xsXA5EX0TIC1KlJl2ByGeRgiTnTex1K+VoY63D5yDIVtBSVrRWRgRSWCpkCQ58pyGxsb4fUR4mvf6JFV9H6C/6EgERA7MCZgdiKiiSnYqS3BpXh6MDfko3t/3UByw3bAxgjDiNxC/MTW3iYpiIgAaAH0NoK+p+pNCMKcDeIy18lBVnMSsG/NcdzSbOsa89Ho6weMT9hT8Rf4jrIwkEBFJYNmp4R4A96jiGtUwoIoVExP6kC1b3N1nnpmO1uvLsykDA98Z/T2sverrIIlKQcRv2C7SWGonIiLaBCIiIiIJRERERBKIiIiIJBARERFJICIiIpJAREREJIGIiIhIAhEREZEEIiIiIglEREREEoiIiIgkEBEREUkgIiIikkBEREQkgYiIiP9t+P8aSBwN09FLIQAAAABJRU5ErkJggg==" alt="Logo" class="company-logo" id="companyLogo">
     <div class="top-bar-text">
       <div class="t1">NPSE Automation Pvt. Ltd.</div>
       <div class="t2" id="headerSubtitle">रात्रीचा सिक्युरिटी राऊंड</div>
     </div>
   </div>
 
-  <!-- 📸 1. QR SCANNER SECTION -->
   <div id="scannerSection" class="main-section">
     <div id="badge" class="status-badge s-ready">📷 कॅमेरा बंद आहे</div>
 
@@ -92,25 +89,20 @@
     </button>
   </div>
 
-  <!-- 👥 2. VISITOR GATE SECTION (BLUE THEME) -->
   <div id="visitorSection" class="main-section" style="display: none;">
     <div class="w-100" style="max-width: 700px;">
       <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
         <h3 class="fw-bolder text-dark mb-0"><i class="bi bi-people-fill text-primary me-2"></i> गेटवर थांबलेले लोक</h3>
-        <!-- रिफ्रेश बटण -->
         <button class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center" onclick="loadApprovedVisitors(false)" style="width: 45px; height: 45px;">
           <i id="refreshBtnIcon" class="bi bi-arrow-clockwise fs-4"></i>
         </button>
       </div>
       
-      <!-- List Container -->
       <div id="visitorListContainer">
-         <!-- डेटा इथे लोड होईल -->
-      </div>
+         </div>
     </div>
   </div>
 
-  <!-- 📱 3. BOTTOM NAVIGATION -->
   <div class="bottom-nav">
       <button id="nav-scanner" class="nav-btn active-scanner" onclick="showGuardTab('scanner')">
         <i class="bi bi-qr-code-scan"></i> QR स्कॅनर
@@ -121,7 +113,6 @@
       </button>
   </div>
 
-  <!-- SUCCESS MODAL -->
   <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true" style="z-index: 2000;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark border-primary border-2 rounded-4 text-center p-4">
@@ -133,7 +124,6 @@
     </div>
   </div>
 
-  <!-- ⚙️ JS LOGIC -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // 🔴 तुझी डिप्लॉयमेंट लिंक (Live /exec)
@@ -194,7 +184,7 @@
         const container = document.getElementById('visitorListContainer');
         const refreshIcon = document.getElementById('refreshBtnIcon');
         
-        // जर Silent नसेल (मॅन्युअल क्लिक), तर स्क्रीनवर मोठा स्पिनर दाखवा
+        // जर Silent नसेल (मॅन्युअल क्लिक किंवा पहिली वेळ), तर स्क्रीनवर मोठा स्पिनर दाखवा
         if (!isSilent) {
             container.innerHTML = '<div class="text-center py-5 text-muted mt-5"><div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div><h4 class="fw-bold">सर्व्हरवरून माहिती घेत आहे...</h4></div>';
         } else {
