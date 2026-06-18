@@ -10,39 +10,45 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <style>
-    /* 📱 BASE STYLES */
+    /* 📱 BASE STYLES & RESPONSIVENESS */
     html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
     body { background-color: #0a0a0a; color: white; display: flex; flex-direction: column; font-family: Arial, sans-serif; transition: background-color 0.3s; }
     body.light-mode { background-color: #f8fafc; color: #0f172a; }
     
-    /* TOP BAR */
-    .top-bar { background: #1e293b; padding: 15px 20px; text-align: center; border-bottom: 4px solid #3b82f6; z-index: 10; }
-    .light-mode .top-bar { background: #ffffff; border-bottom: 4px solid #10b981; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .top-bar .t1 { font-size: 1.2rem; font-weight: 900; color: #ffffff; margin-bottom: 5px; }
+    /* 🔵 TOP BAR WITH LOGO (BLUE THEME) */
+    .top-bar { background: #1e293b; padding: 15px 20px; display: flex; align-items: center; justify-content: center; border-bottom: 4px solid #0d6efd; z-index: 10; transition: all 0.3s;}
+    .light-mode .top-bar { background: #ffffff; border-bottom: 4px solid #0d6efd; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    
+    /* 🚨 LOGO STYLES */
+    .company-logo { height: 45px; margin-right: 15px; border-radius: 5px; object-fit: contain; }
+    
+    .top-bar-text { display: flex; flex-direction: column; align-items: flex-start; }
+    .top-bar .t1 { font-size: 1.2rem; font-weight: 900; color: #ffffff; margin-bottom: 2px; }
     .light-mode .top-bar .t1 { color: #0f172a; }
     .top-bar .t2 { font-size: 0.85rem; font-weight: bold; color: #93c5fd; letter-spacing: 1px; }
-    .light-mode .top-bar .t2 { color: #10b981; }
+    .light-mode .top-bar .t2 { color: #0d6efd; }
 
-    /* SECTIONS - Bulletproof Hiding */
+    /* SECTIONS */
     .main-section { flex-grow: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; padding-bottom: 100px; width: 100%; }
     
     /* SCANNER UI */
-    .scanner-box { width: 100%; max-width: 600px; height: 50vh; min-height: 350px; border: 4px solid #3b82f6; border-radius: 20px; overflow: hidden; position: relative; background: #000; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); margin-bottom: 20px; }
+    .scanner-box { width: 100%; max-width: 550px; aspect-ratio: 1/1; border: 4px solid #0d6efd; border-radius: 20px; overflow: hidden; position: relative; background: #000; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2); margin-bottom: 20px; }
     video { width: 100%; height: 100%; object-fit: cover; display: none; }
-    .scan-overlay { position: absolute; width: 250px; height: 250px; border: 4px solid #3b82f6; border-radius: 20px; box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.7); }
+    .scan-overlay { position: absolute; width: 60%; height: 60%; border: 4px solid #0d6efd; border-radius: 20px; box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.7); }
     .scanning .scan-overlay { animation: pulse 1.5s infinite; }
 
     /* BUTTONS & BADGES */
-    .status-badge { width: 100%; max-width: 600px; padding: 15px; border-radius: 15px; text-align: center; font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; }
+    .status-badge { width: 100%; max-width: 550px; padding: 15px; border-radius: 15px; text-align: center; font-size: 1.1rem; font-weight: bold; margin-bottom: 20px; }
     .s-ready  { background:#1e293b; border:2px solid #475569; color:#94a3b8; }
-    .s-active { background:#064e3b; border:2px solid #10b981; color:#34d399; }
+    .s-active { background:#0a2a5e; border:2px solid #0d6efd; color:#6ea8fe; }
     .s-saving { background:#451a03; border:2px solid #f59e0b; color:#fbbf24; }
     .s-error  { background:#450a0a; border:2px solid #ef4444; color:#f87171; }
     
-    .btn-giant { width: 100%; max-width: 600px; padding: 18px; font-size: 1.2rem; font-weight: 800; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .btn-giant { width: 100%; max-width: 550px; padding: 18px; font-size: 1.2rem; font-weight: 800; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
 
-    /* VISITOR CARDS (मराठी UI) */
-    .visitor-card { background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; border-left: 8px solid #10b981; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); width: 100%; max-width: 700px; }
+    /* 🔵 VISITOR CARDS (BLUE THEME) */
+    .visitor-card { background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; border-left: 8px solid #0d6efd; padding: 20px; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); width: 100%; max-width: 700px; transition: transform 0.2s; }
+    .visitor-card:active { transform: scale(0.98); }
     .v-details p { margin-bottom: 5px; font-size: 1.1rem; color: #475569; }
     .v-details strong { color: #0f172a; }
 
@@ -50,19 +56,28 @@
     .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.4); z-index: 1000; }
     .nav-btn { background: transparent; border: none; color: #64748b; font-weight: bold; font-size: 14px; padding: 10px; display: flex; flex-direction: column; align-items: center; flex: 1; }
     .nav-btn i { font-size: 26px; margin-bottom: 5px; }
-    .nav-btn.active-scanner { color: #3b82f6; }
-    .nav-btn.active-visitors { color: #10b981; }
+    .nav-btn.active-scanner { color: #0d6efd; }
+    .nav-btn.active-visitors { color: #0d6efd; }
 
-    @keyframes pulse { 0% { border-color: #3b82f6; } 50% { border-color: #10b981; } 100% { border-color: #3b82f6; } }
+    /* 🔄 SILENT REFRESH ANIMATION */
+    @keyframes spinFast { 100% { transform: rotate(360deg); } }
+    .spinning-icon { animation: spinFast 1s linear infinite; }
+    @keyframes pulse { 0% { border-color: #0d6efd; } 50% { border-color: #6ea8fe; } 100% { border-color: #0d6efd; } }
   </style>
 </head>
 <body id="appBody">
 
+  <!-- 🏢 TOP BAR -->
   <div class="top-bar">
-    <div class="t1">NPSE Automation Pvt. Ltd.</div>
-    <div class="t2" id="headerSubtitle">रात्रीचा सिक्युरिटी राऊंड</div>
+    <!-- 🚨 LOGO: src मध्ये तुझ्या लोगोची लिंक टाक -->
+    <img src="https://npse.co.in/wp-content/uploads/2023/06/NPSE-Logo-1.png" alt="Logo" class="company-logo" id="companyLogo">
+    <div class="top-bar-text">
+      <div class="t1">NPSE Automation Pvt. Ltd.</div>
+      <div class="t2" id="headerSubtitle">रात्रीचा सिक्युरिटी राऊंड</div>
+    </div>
   </div>
 
+  <!-- 📸 1. QR SCANNER SECTION -->
   <div id="scannerSection" class="main-section">
     <div id="badge" class="status-badge s-ready">📷 कॅमेरा बंद आहे</div>
 
@@ -77,24 +92,25 @@
     </button>
   </div>
 
+  <!-- 👥 2. VISITOR GATE SECTION (BLUE THEME) -->
   <div id="visitorSection" class="main-section" style="display: none;">
     <div class="w-100" style="max-width: 700px;">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bolder text-dark mb-0"><i class="bi bi-people-fill text-success me-2"></i> गेटवर थांबलेले लोक</h3>
-        <button class="btn btn-outline-success rounded-circle" onclick="loadApprovedVisitors()" style="width: 50px; height: 50px;">
-          <i class="bi bi-arrow-clockwise fs-4"></i>
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+        <h3 class="fw-bolder text-dark mb-0"><i class="bi bi-people-fill text-primary me-2"></i> गेटवर थांबलेले लोक</h3>
+        <!-- रिफ्रेश बटण -->
+        <button class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center" onclick="loadApprovedVisitors(false)" style="width: 45px; height: 45px;">
+          <i id="refreshBtnIcon" class="bi bi-arrow-clockwise fs-4"></i>
         </button>
       </div>
       
+      <!-- List Container -->
       <div id="visitorListContainer">
-         <div class="text-center py-5 mt-5">
-           <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;"></div>
-           <h4 class="fw-bold text-muted">माहिती तपासत आहे...</h4>
-         </div>
+         <!-- डेटा इथे लोड होईल -->
       </div>
     </div>
   </div>
 
+  <!-- 📱 3. BOTTOM NAVIGATION -->
   <div class="bottom-nav">
       <button id="nav-scanner" class="nav-btn active-scanner" onclick="showGuardTab('scanner')">
         <i class="bi bi-qr-code-scan"></i> QR स्कॅनर
@@ -105,21 +121,23 @@
       </button>
   </div>
 
+  <!-- SUCCESS MODAL -->
   <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true" style="z-index: 2000;">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark border-success border-2 rounded-4 text-center p-4">
-        <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+      <div class="modal-content bg-dark border-primary border-2 rounded-4 text-center p-4">
+        <i class="bi bi-check-circle-fill text-primary" style="font-size: 4rem;"></i>
         <h3 class="fw-bold text-white mt-3" id="locName">📍 लोकेशन</h3>
         <p class="text-secondary fs-5" id="scanTime">वेळ</p>
-        <button class="btn btn-success btn-lg fw-bold rounded-pill mt-3 w-100" data-bs-dismiss="modal" onclick="startScanner()">पुढील स्कॅन करा 🔄</button>
+        <button class="btn btn-primary btn-lg fw-bold rounded-pill mt-3 w-100" data-bs-dismiss="modal" onclick="startScanner()">पुढील स्कॅन करा 🔄</button>
       </div>
     </div>
   </div>
 
+  <!-- ⚙️ JS LOGIC -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // 🔴 तुझी डिप्लॉयमेंट लिंक
-    const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbx11poC2Xv57yafkd1VNALE9mrxqX45RA8ZwCXVht4Ab-JhUCl3C5KXuMdxHdYqbvMH/exec"; 
+    // 🔴 तुझी डिप्लॉयमेंट लिंक (Live /exec)
+    const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbxEPrgwchsGMq0A1-vzgst67coeCHkedKEIyVs8ZHE/exec"; 
 
     window.google = { script: { run: getRunner(null, null) } };
     function getRunner(onSuccess, onFailure) {
@@ -141,9 +159,7 @@
         });
     }
 
-    // ==========================================
-    // 🔀 BULLETPROOF TAB SWITCHING
-    // ==========================================
+    // 🔀 TAB SWITCHING
     function showGuardTab(tab) {
        const scannerSec = document.getElementById('scannerSection');
        const visitorSec = document.getElementById('visitorSection');
@@ -153,39 +169,44 @@
        if (tab === 'scanner') {
            scannerSec.style.display = 'flex';
            visitorSec.style.display = 'none';
-           
            body.classList.remove('light-mode');
            subtitle.innerText = "रात्रीचा सिक्युरिटी राऊंड";
-           subtitle.style.color = "#93c5fd";
-           
            document.getElementById('nav-scanner').classList.add('active-scanner');
            document.getElementById('nav-visitors').classList.remove('active-visitors');
        } else {
            scannerSec.style.display = 'none';
            visitorSec.style.display = 'flex';
-           
            body.classList.add('light-mode');
            subtitle.innerText = "नवीन अभ्यागत तपासणी";
-           subtitle.style.color = "#10b981";
-           
            document.getElementById('nav-visitors').classList.add('active-visitors');
            document.getElementById('nav-scanner').classList.remove('active-scanner');
            
-           loadApprovedVisitors();
-           
+           // पहिली वेळ असेल तर पूर्ण लोडिंग दाखवा (false)
+           loadApprovedVisitors(false);
            if (isScanning) stopScanner();
        }
     }
 
     // ==========================================
-    // 👥 VISITOR GATE LOGIC (फोटो आणि डिझाईन अपडेटेड)
+    // 🤫 SILENT REFRESH LOGIC (बॅकग्राउंडमध्ये डेटा आणणे)
     // ==========================================
-    function loadApprovedVisitors() {
+    function loadApprovedVisitors(isSilent = false) {
         const container = document.getElementById('visitorListContainer');
-        container.innerHTML = '<div class="text-center py-5 text-muted mt-5"><div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;"></div><h4 class="fw-bold">सर्व्हरवरून माहिती घेत आहे...</h4></div>';
+        const refreshIcon = document.getElementById('refreshBtnIcon');
+        
+        // जर Silent नसेल (मॅन्युअल क्लिक), तर स्क्रीनवर मोठा स्पिनर दाखवा
+        if (!isSilent) {
+            container.innerHTML = '<div class="text-center py-5 text-muted mt-5"><div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div><h4 class="fw-bold">सर्व्हरवरून माहिती घेत आहे...</h4></div>';
+        } else {
+            // जर Silent असेल, तर फक्त वरच्या कोपऱ्यातलं बटण फिरवा (स्क्रीन तशीच ठेवा)
+            if (refreshIcon) refreshIcon.classList.add('spinning-icon');
+        }
         
         google.script.run
             .withSuccessHandler(function(res) {
+                // डेटा आल्यावर स्पिनर थांबवा
+                if (refreshIcon) refreshIcon.classList.remove('spinning-icon');
+
                 if (res && res.status === "Success") {
                     const visitors = res.data;
                     const badgeEl = document.getElementById('visitorCountBadge');
@@ -197,48 +218,46 @@
                         badgeEl.classList.add('d-none');
                     }
 
+                    let html = '';
                     if (visitors.length === 0) {
-                        container.innerHTML = `
-                          <div class="text-center py-5 bg-white rounded-4 border border-success border-opacity-25 mt-4 p-5 shadow-sm">
-                             <i class="bi bi-shield-check text-success display-1 opacity-75 mb-3"></i>
+                        html = `
+                          <div class="text-center py-5 bg-white rounded-4 border border-primary border-opacity-25 mt-4 p-5 shadow-sm">
+                             <i class="bi bi-shield-check text-primary display-1 opacity-50 mb-3"></i>
                              <h2 class="fw-bold text-dark">गेटवर कोणीही नाही!</h2>
                              <p class="text-muted fs-5 mb-0">आजचे कोणतेही मंजूर झालेले अभ्यागत गेटवर थांबलेले नाहीत.</p>
                           </div>`;
-                        return;
-                    }
-                    
-                    let html = '';
-                    visitors.forEach(v => {
-                        // 📸 फोटोची डिझाईन (जर फोटो नसेल तर डीफॉल्ट आयकॉन दिसेल)
-                        let photoHtml = (v.facePhoto && v.facePhoto.length > 50) 
-                            ? `<img src="${v.facePhoto}" class="shadow-sm" style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%; border: 3px solid #10b981; margin-right: 20px;">` 
-                            : `<div class="d-flex justify-content-center align-items-center bg-light text-secondary shadow-sm" style="width: 90px; height: 90px; border-radius: 50%; border: 3px solid #cbd5e1; margin-right: 20px;"><i class="bi bi-person-fill" style="font-size: 3rem;"></i></div>`;
+                    } else {
+                        visitors.forEach(v => {
+                            let photoHtml = (v.facePhoto && v.facePhoto.length > 50) 
+                                ? `<img src="${v.facePhoto}" class="shadow-sm" style="width: 90px; height: 90px; object-fit: cover; border-radius: 50%; border: 3px solid #0d6efd; margin-right: 20px;">` 
+                                : `<div class="d-flex justify-content-center align-items-center bg-light text-secondary shadow-sm" style="width: 90px; height: 90px; border-radius: 50%; border: 3px solid #cbd5e1; margin-right: 20px;"><i class="bi bi-person-fill" style="font-size: 3rem;"></i></div>`;
 
-                        html += `
-                        <div class="visitor-card">
-                           <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2 border-success border-opacity-25">
-                             <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 fs-6"><i class="bi bi-check-circle-fill me-1"></i> बॉसने मंजूर केले</span>
-                             <span class="text-muted fw-bold fs-6">ID: ${v.passId}</span>
-                           </div>
-                           
-                           <!-- 📸 फोटो आणि नावाची माहिती एकाच रेषेत -->
-                           <div class="d-flex align-items-center mb-4">
-                              ${photoHtml}
-                              <div>
-                                  <h2 class="fw-bolder mb-1 text-dark">${v.name}</h2>
-                                  <div class="v-details">
-                                      <p class="mb-1 text-secondary"><i class="bi bi-building me-2"></i> <strong class="text-dark">${v.company}</strong></p>
-                                      <p class="mb-0 text-secondary"><i class="bi bi-person-badge me-2"></i> भेटणारी व्यक्ती: <strong class="text-dark">${v.host}</strong></p>
+                            html += `
+                            <div class="visitor-card">
+                               <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2 border-primary border-opacity-25">
+                                 <span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-3 py-2 fs-6"><i class="bi bi-check-circle-fill me-1"></i> बॉसने मंजूर केले</span>
+                                 <span class="text-muted fw-bold fs-6">ID: ${v.passId}</span>
+                               </div>
+                               
+                               <div class="d-flex align-items-center mb-4">
+                                  ${photoHtml}
+                                  <div>
+                                      <h2 class="fw-bolder mb-1 text-dark">${v.name}</h2>
+                                      <div class="v-details">
+                                          <p class="mb-1 text-secondary"><i class="bi bi-building me-2"></i> <strong class="text-dark">${v.company}</strong></p>
+                                          <p class="mb-0 text-secondary"><i class="bi bi-person-badge me-2"></i> भेटणारी व्यक्ती: <strong class="text-dark">${v.host}</strong></p>
+                                      </div>
                                   </div>
-                              </div>
-                           </div>
+                               </div>
 
-                           <button class="btn btn-success btn-giant w-100" onclick="allowVisitorEntry('${v.passId}', this)">
-                             <i class="bi bi-door-open-fill me-2 fs-4"></i> आत सोडा (ALLOW ENTRY)
-                           </button>
-                        </div>
-                        `;
-                    });
+                               <button class="btn btn-primary btn-giant w-100" onclick="allowVisitorEntry('${v.passId}', this)">
+                                 <i class="bi bi-door-open-fill me-2 fs-4"></i> आत सोडा (ALLOW ENTRY)
+                               </button>
+                            </div>
+                            `;
+                        });
+                    }
+                    // शेवटी एकाच वेळी HTML अपडेट करा (म्हणजे फ्लिकर होणार नाही)
                     container.innerHTML = html;
                 } else {
                     let errText = res ? res.message : "Unknown backend failure.";
@@ -246,12 +265,15 @@
                 }
             })
             .withFailureHandler(function(err) {
-                container.innerHTML = `
-                  <div class="alert alert-danger fs-5 rounded-4 shadow-sm border border-danger border-2 p-4 text-center mt-4">
-                    <i class="bi bi-wifi-off display-4 text-danger d-block mb-3"></i>
-                    <b class="fs-4">🚨 कनेक्शन एरर:</b><br><br>
-                    <span class="text-dark fw-bold bg-white p-2 rounded">${err.message || err}</span>
-                  </div>`;
+                if (refreshIcon) refreshIcon.classList.remove('spinning-icon');
+                if (!isSilent) {
+                    container.innerHTML = `
+                      <div class="alert alert-danger fs-5 rounded-4 shadow-sm border border-danger border-2 p-4 text-center mt-4">
+                        <i class="bi bi-wifi-off display-4 text-danger d-block mb-3"></i>
+                        <b class="fs-4">🚨 कनेक्शन एरर:</b><br><br>
+                        <span class="text-dark fw-bold bg-white p-2 rounded">${err.message || err}</span>
+                      </div>`;
+                }
             })
             .getApprovedVisitorsForGuard();
     }
@@ -260,27 +282,37 @@
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> नोंद करत आहे...';
         btn.disabled = true;
         
-        google.script.run.withSuccessHandler(function(res) {
-            if (res.status === "Success") {
-                btn.style.background = '#0f172a';
-                btn.innerHTML = '<i class="bi bi-check-all me-2"></i> आत सोडले';
-                setTimeout(loadApprovedVisitors, 1000);
-            } else {
-                alert("त्रुटी: " + res.message);
+        google.script.run
+            .withSuccessHandler(function(res) {
+                if (res.status === "Success") {
+                    btn.style.background = '#0f172a';
+                    btn.style.borderColor = '#0f172a';
+                    btn.innerHTML = '<i class="bi bi-check-all me-2"></i> आत सोडले';
+                    // १ सेकंदानंतर गुपचूप रिफ्रेश करा
+                    setTimeout(() => loadApprovedVisitors(true), 1000);
+                } else {
+                    alert("त्रुटी: " + res.message);
+                    btn.innerHTML = '<i class="bi bi-door-open-fill me-2"></i> आत सोडा';
+                    btn.disabled = false;
+                }
+            })
+            .withFailureHandler(function(err) {
+                alert("🚨 सर्व्हर एरर: " + (err.message || err));
                 btn.innerHTML = '<i class="bi bi-door-open-fill me-2"></i> आत सोडा';
                 btn.disabled = false;
-            }
-        }).markVisitorEntered(passId);
+            })
+            .markVisitorEntered(passId);
     }
 
+    // 🔄 दर 15 सेकंदांनी 'Silent Fetch' (फक्त छोटं बटण फिरेल, स्क्रीन तशीच राहील)
     setInterval(function() {
         if (document.getElementById('visitorSection').style.display === 'flex') {
-            loadApprovedVisitors();
+            loadApprovedVisitors(true); // true = Silent Refresh
         }
     }, 15000);
 
     // ==========================================
-    // 📷 QR SCANNER LOGIC (Original Safe Code)
+    // 📷 QR SCANNER LOGIC 
     // ==========================================
     let stream = null;
     let isScanning = false;
@@ -291,7 +323,7 @@
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const badge = document.getElementById('badge');
     const toggleBtn = document.getElementById('toggleBtn');
-    const container = document.getElementById('scannerContainer');
+    const scannerContainer = document.getElementById('scannerContainer');
 
     function setBadge(type, msg) {
       badge.className = `status-badge ${type}`;
@@ -324,7 +356,7 @@
         }, 1000); 
         
         isScanning = true;
-        container.classList.add('scanning');
+        scannerContainer.classList.add('scanning');
         video.style.display = 'block';
         
         toggleBtn.innerHTML = '<i class="bi bi-stop-circle-fill me-2"></i> कॅमेरा बंद करा';
@@ -335,13 +367,12 @@
       } catch (err) {
         console.error(err);
         setBadge('s-error', '❌ कॅमेरा चालू करता आला नाही.');
-        alert("माहिती: स्कॅनर चालू करण्यासाठी टॅबमध्ये 'Camera Permission' Allow करा आणि लिंक HTTPS वरच उघडा.");
       }
     }
 
     function stopScanner() {
       isScanning = false;
-      container.classList.remove('scanning');
+      scannerContainer.classList.remove('scanning');
       if (scanningLoop) cancelAnimationFrame(scanningLoop);
       if (stream) stream.getTracks().forEach(track => track.stop());
       video.srcObject = null;
@@ -389,10 +420,6 @@
             setBadge('s-error', '❌ त्रुटी: ' + (res ? res.message : 'अज्ञात त्रुटी'));
             setTimeout(startScanner, 3000); 
           }
-        })
-        .withFailureHandler(function() {
-          setBadge('s-error', '❌ इंटरनेट नाही! पुन्हा प्रयत्न करा.');
-          setTimeout(startScanner, 3000);
         })
         .recordGuardScan(text, livePhotoBase64); 
     }
