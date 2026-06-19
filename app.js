@@ -1245,37 +1245,34 @@ function adminVisitorAction(passId, status, btnElement) {
 
 // --- 8. UI ROUTING & DATA FETCHING ---
 
-// --- 8. UI ROUTING & DATA FETCHING ---
-
 function switchView(view) {
-  // NUCLEAR HIDE: Forcefully shut down every single view and strip flexbox styles
+  // 1. सर्व स्क्रीन लपवा आणि जुने Inline Styles पुसून टाका
   ['loginView', 'regView', 'empDashView', 'adminDashView', 'mainAppContainer'].forEach(id => {
     let el = document.getElementById(id);
     if(el) {
       el.classList.add('hidden-view');
-      el.style.setProperty('display', 'none', 'important');
+      el.style.removeProperty('display'); // 🔥 THE FIX: इथून जुना 'none' हटवला
     }
   });
 
+  // 2. योग्य ती स्क्रीन दाखवा (जबरदस्तीने / important वापरून)
   if (view === 'emp') {
     let main = document.getElementById('mainAppContainer');
     let emp = document.getElementById('empDashView');
-    if(main) { main.classList.remove('hidden-view'); main.style.display = 'block'; }
-    if(emp) { emp.classList.remove('hidden-view'); emp.style.display = 'block'; }
+    if(main) { main.classList.remove('hidden-view'); }
+    if(emp) { emp.classList.remove('hidden-view'); emp.style.setProperty('display', 'block', 'important'); }
   } 
   else if (view === 'admin') {
     let admin = document.getElementById('adminDashView');
-    if(admin) { admin.classList.remove('hidden-view'); admin.style.display = 'block'; }
+    // 🔥 THE FIX: ॲडमिन डॅशबोर्ड दिसण्यासाठी important लावलं!
+    if(admin) { admin.classList.remove('hidden-view'); admin.style.setProperty('display', 'block', 'important'); }
   } 
   else if (view === 'reg') {
     let main = document.getElementById('mainAppContainer');
     let reg = document.getElementById('regView');
-    if(main) { main.classList.remove('hidden-view'); main.style.display = 'block'; }
-    if(reg) { 
-      reg.classList.remove('hidden-view'); 
-      reg.classList.add('split-layout'); // Restore split layout
-      reg.style.display = 'flex'; 
-    }
+    if(main) { main.classList.remove('hidden-view'); }
+    if(reg) { reg.classList.remove('hidden-view'); reg.style.setProperty('display', 'flex', 'important'); }
+    
     google.script.run.withSuccessHandler(id => {
         if(document.getElementById('r_id')) document.getElementById('r_id').value = id;
     }).getNextID();
@@ -1283,12 +1280,8 @@ function switchView(view) {
   else if (view === 'log') {
     let main = document.getElementById('mainAppContainer');
     let log = document.getElementById('loginView');
-    if(main) { main.classList.remove('hidden-view'); main.style.display = 'block'; }
-    if(log) { 
-      log.classList.remove('hidden-view'); 
-      log.classList.add('split-layout'); // Restore split layout
-      log.style.display = 'flex'; 
-    }
+    if(main) { main.classList.remove('hidden-view'); }
+    if(log) { log.classList.remove('hidden-view'); log.style.setProperty('display', 'flex', 'important'); }
   }
 }
 
