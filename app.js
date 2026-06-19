@@ -46,7 +46,6 @@ let alreadyNotifiedPasses = [];
 
 // --- 2. APP INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', function() {
-  checkAutoLogin(); 
   
   var loginBtn = document.getElementById('loginBtn');
   if (loginBtn) {
