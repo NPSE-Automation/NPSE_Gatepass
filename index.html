@@ -160,17 +160,16 @@
 <div id="adminDashView" class="hidden-view"></div>
 
 <script>
-  // Employee.html मधला कोड आणून empDashView मध्ये टाकणे
-  fetch('employee.html')
-    .then(response => response.text())
-    .then(data => { document.getElementById('empDashView').innerHTML = data; })
-    .catch(err => console.error("Employee file load failed:", err));
-
-  // admin.html मधला कोड आणून adminDashView मध्ये टाकणे
-  fetch('admin.html')
-    .then(response => response.text())
-    .then(data => { document.getElementById('adminDashView').innerHTML = data; })
-    .catch(err => console.error("Admin file load failed:", err));
+  // 🚀 THE FIX: दोन्ही HTML फाईल्स पूर्ण लोड झाल्यावरच ॲप चालू करा!
+  Promise.all([
+    fetch('employee.html').then(r => r.text()).then(data => { document.getElementById('empDashView').innerHTML = data; }),
+    fetch('admin.html').then(r => r.text()).then(data => { document.getElementById('adminDashView').innerHTML = data; })
+  ]).then(() => {
+    // फाईल्स पूर्ण लोड झाल्यावरच ऑटो-लॉगिन चेक करा
+    if (typeof checkAutoLogin === 'function') {
+       checkAutoLogin();
+    }
+  }).catch(err => console.error("UI Load Error:", err));
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
