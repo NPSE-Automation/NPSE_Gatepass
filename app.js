@@ -46,6 +46,8 @@ let alreadyNotifiedPasses = [];
 
 // --- 2. APP INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', function() {
+  // 🔥 THE FIX: 500ms थांबून ऑटो-लॉगिन चेक करा (जेणेकरून HTML फाईल्स आरामात लोड होतील) 🔥
+  setTimeout(checkAutoLogin, 500);
   
   var loginBtn = document.getElementById('loginBtn');
   if (loginBtn) {
