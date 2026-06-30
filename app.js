@@ -1142,12 +1142,14 @@ function switchDashboardMode(mode) {
   }
 }
 
+// =====================================================
+// 🚨 2. TABLE + BADGE SYNC (टेबल आणि बॅज एकाच वेळी अपडेट होतील)
+// =====================================================
 function loadVisitorDashboard() {
   const loader = document.getElementById('adminLoader');
   const tableContainer = document.getElementById('adminTableContainer');
   const timeFrame = document.getElementById('globalTimeFilter') ? document.getElementById('globalTimeFilter').value : 'today';
 
-  // Only show the big loader if we don't have a table loaded yet (prevents flickering)
   const currentTable = document.getElementById('adminTableBody');
   if (!currentTable || currentTable.innerHTML === "") {
       if(loader) loader.classList.remove('d-none');
@@ -1159,7 +1161,6 @@ function loadVisitorDashboard() {
     if(!tbody) return;
     tbody.innerHTML = "";
 
-    // Dynamically change the Table Headers for Visitors
     const thead = document.querySelector('#adminTableContainer thead tr');
     if(thead) {
       thead.innerHTML = `
@@ -1171,13 +1172,19 @@ function loadVisitorDashboard() {
         <th class="text-center border-0">ACTIONS</th>`;
     }
 
+    let pendingCountForBadge = 0; // 🎯 टेबल बनवतानाच काउंटर मोजणार
+
     if (!response || response.status === "empty" || !response.data || response.data.length === 0) {
       tbody.innerHTML = "<tr><td colspan='6' class='text-center py-4 text-muted'>No visitors found for this timeframe.</td></tr>";
     } else {
       for(let i = 0; i < response.data.length; i++) {
         let v = response.data[i];
-        let statUp = (v.status || "").toUpperCase();
-        
+        let statUp = (v.status || "").toUpperCase().trim();
+
+        if (statUp === "PENDING") {
+            pendingCountForBadge++; // 🎯 एक पेंडिंग सापडला की आकडा वाढेल
+        }
+
         let badgeClass = statUp === "APPROVED" ? "bg-success" : statUp === "REJECTED" ? "bg-danger" : "bg-warning text-dark";
 
         let actionBtns = statUp === "PENDING" ? 
@@ -1196,13 +1203,14 @@ function loadVisitorDashboard() {
           </tr>`;
       }
     }
-    
+
+    // 🎯 टेबल बनल्याक्षणी बॅज अपडेट करा! (No Delay)
+    forceUpdateBadge(pendingCountForBadge);
+
     if(loader) loader.classList.add('d-none');
     if(tableContainer) tableContainer.classList.remove('d-none');
-    
-    // Apply local visitor filters
-    if(typeof visitorMultiFilter === 'function') visitorMultiFilter(); 
-    
+    if(typeof visitorMultiFilter === 'function') visitorMultiFilter();
+
   }).getAllVisitors(timeFrame);
 }
 
@@ -1966,10 +1974,71 @@ function requestDesktopNotificationPermission() {
   }
 }
 
+// =====================================================
+// 🚨 3. BACKGROUND RADAR (तू Employees टॅबवर असताना काम करण्यासाठी)
+// =====================================================
+function checkForNewVisitors() {
+  let timeFrame = document.getElementById('globalTimeFilter') ? document.getElementById('globalTimeFilter').value : 'today';
+
+  google.script.run.withSuccessHandler(function(response) {
+    if (!response || !response.data) return;
+
+    let pendingVisitors = response.data.filter(v => (v.status || "").toUpperCase().trim() === "PENDING");
+
+    // 🎯 बॅकग्राऊंडमधून सुद्धा बॅज अपडेट करा
+    forceUpdateBadge(pendingVisitors.length);
+
+    if (pendingVisitors.length === 0) {
+        window.isFirstVisCheck = false;
+        return;
+    }
+
+    pendingVisitors.forEach(function(visitor) {
+      if (!window.notifiedVisitors.has(visitor.passId)) {
+        window.notifiedVisitors.add(visitor.passId);
+
+        if (!window.isFirstVisCheck) {
+            window.currentPopupPassId = visitor.passId;
+            const uiPopup = document.getElementById('liveApprovalPopup');
+            if (uiPopup) {
+              if(document.getElementById('popupPassId')) document.getElementById('popupPassId').innerText = visitor.passId;
+              if(document.getElementById('popupName')) document.getElementById('popupName').innerText = visitor.name || "Visitor";
+              if(document.getElementById('popupDept')) document.getElementById('popupDept').innerText = "Company: " + (visitor.company || "N/A");
+              if(document.getElementById('popupReason')) document.getElementById('popupReason').innerText = "Meeting: " + (visitor.host || "N/A");
+              if(document.getElementById('popupOutTime')) document.getElementById('popupOutTime').innerText = visitor.time || "";
+              uiPopup.style.display = 'block';
+            }
+        }
+      }
+    });
+    window.isFirstVisCheck = false;
+  }).getAllVisitors(timeFrame);
+}
+
+// =====================================================
+// 🚨 1. DEDICATED BADGE UPDATER (बॅज अपडेट करणारे मुख्य फंक्शन)
+// =====================================================
+window.forceUpdateBadge = function(count) {
+    let badge = document.getElementById('visPendingBadge');
+    if (badge) {
+        badge.innerText = count;
+        // जर 0 असेल तर ग्रे (Secondary), 1 किंवा जास्त असेल तर लाल (Danger)
+        badge.className = count > 0 ? 'badge bg-danger rounded-pill shadow-sm' : 'badge bg-secondary rounded-pill shadow-sm';
+    }
+};
+
+// =====================================================
+// 🚨 4. Start Radar (स्वच्छ टायमर्स)
+// =====================================================
 function startAdminRadar() {
-  requestDesktopNotificationPermission(); // Ask for Desktop permissions
-  if (adminPollInterval) clearInterval(adminPollInterval);
-  adminPollInterval = setInterval(checkForNewTickets, 10000); // Check every 10 secs
+  if (window.adminPollInterval) clearInterval(window.adminPollInterval);
+  if (window.visitorPollInterval) clearInterval(window.visitorPollInterval);
+  
+  checkForNewTickets();
+  checkForNewVisitors();
+  
+  window.adminPollInterval = setInterval(checkForNewTickets, 10000); 
+  window.visitorPollInterval = setInterval(checkForNewVisitors, 13000); 
 }
 
 function checkForNewTickets() {
